@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, Router } from '@angular/router';
-import { UserService } from '../../core/user.service';
+import { UserService } from '../../core/services/user.service';
 import { FirebaseUserModel } from '../../core/user.model';
 
 @Injectable()

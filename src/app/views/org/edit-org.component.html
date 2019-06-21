@@ -1,0 +1,64 @@
+<div class="edit-page">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">Edit User</li>
+    </ol>
+  </nav>
+  <div class="page-content">
+    <div class="row">
+  
+      <div class="col-12">
+
+          <form class="create-form" [formGroup]="editOrgForm" novalidate (ngSubmit)="onSubmit(editOrgForm.value)">
+              <div class="card">
+                <div class="card-header">
+                  Add Org
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                      <div class="col-6 form-group">
+                          <mat-form-field>
+                            <input matInput placeholder="Organisation name" formControlName="name">
+                          </mat-form-field>
+                      </div>
+                      <div class="col-6 form-group">
+                          <mat-form-field>
+                            <input matInput placeholder="Tin" formControlName="tin_no">
+                          </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <mat-form-field>
+                              <input matInput placeholder="Street" formControlName="street">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6 form-group">
+                            <mat-form-field>
+                              <input matInput placeholder="City" formControlName="city">
+                            </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-6 form-group">
+                              <mat-form-field>
+                                <input matInput placeholder="Postal code" formControlName="pin">
+                              </mat-form-field>
+                          </div>
+                          <div class="col-6 form-group">
+                              <mat-form-field>
+                                <input matInput placeholder="Country" formControlName="country">
+                              </mat-form-field>
+                          </div>
+                        </div>
+                </div>
+                <div class="card-footer">
+                    <button mat-raised-button type="button" (click)="cancel()"><i class="fa fa-dot-circle-o"></i> Cancel</button>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!editOrgForm.valid"><i class="fa fa-dot-circle-o"></i> Update</button>
+                </div>
+              </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>

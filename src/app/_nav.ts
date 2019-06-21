@@ -39,109 +39,160 @@ export const navItems: NavData[] = [
       text: 'NEW'
     }
   },
+  // {
+  //   title: true,
+  //   name: 'Theme'
+  // },
   {
-    title: true,
-    name: 'Theme'
-  },
-  {
-    name: 'Colors',
-    url: '/theme/colors',
+    name: 'User',
+    url: '/dashboard/new-user',
     icon: 'icon-drop'
   },
+  // {
+  //   name: 'Typography',
+  //   url: '/theme/typography',
+  //   icon: 'icon-pencil'
+  // },
+  // {
+  //   title: true,
+  //   name: 'Components'
+  // },
+  // {
+  //   name: 'Base',
+  //   url: '/base',
+  //   icon: 'icon-puzzle',
+  //   children: [
+  //     {
+  //       name: 'Cards',
+  //       url: '/base/cards',
+  //       icon: 'icon-puzzle'
+  //     },
+  //     {
+  //       name: 'Carousels',
+  //       url: '/base/carousels',
+  //       icon: 'icon-puzzle'
+  //     },
+  //     {
+  //       name: 'Collapses',
+  //       url: '/base/collapses',
+  //       icon: 'icon-puzzle'
+  //     },
+  //     {
+  //       name: 'Forms',
+  //       url: '/base/forms',
+  //       icon: 'icon-puzzle'
+  //     },
+  //     {
+  //       name: 'Pagination',
+  //       url: '/base/paginations',
+  //       icon: 'icon-puzzle'
+  //     },
+  //     {
+  //       name: 'Popovers',
+  //       url: '/base/popovers',
+  //       icon: 'icon-puzzle'
+  //     },
+  //     {
+  //       name: 'Progress',
+  //       url: '/base/progress',
+  //       icon: 'icon-puzzle'
+  //     },
+  //     {
+  //       name: 'Switches',
+  //       url: '/base/switches',
+  //       icon: 'icon-puzzle'
+  //     },
+  //     {
+  //       name: 'Tables',
+  //       url: '/base/tables',
+  //       icon: 'icon-puzzle'
+  //     },
+  //     {
+  //       name: 'Tabs',
+  //       url: '/base/tabs',
+  //       icon: 'icon-puzzle'
+  //     },
+  //     {
+  //       name: 'Tooltips',
+  //       url: '/base/tooltips',
+  //       icon: 'icon-puzzle'
+  //     }
+  //   ]
+  // },
   {
-    name: 'Typography',
-    url: '/theme/typography',
-    icon: 'icon-pencil'
-  },
-  {
-    title: true,
-    name: 'Components'
-  },
-  {
-    name: 'Base',
-    url: '/base',
-    icon: 'icon-puzzle',
-    children: [
-      {
-        name: 'Cards',
-        url: '/base/cards',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Carousels',
-        url: '/base/carousels',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Collapses',
-        url: '/base/collapses',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Forms',
-        url: '/base/forms',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Pagination',
-        url: '/base/paginations',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Popovers',
-        url: '/base/popovers',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Progress',
-        url: '/base/progress',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Switches',
-        url: '/base/switches',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Tables',
-        url: '/base/tables',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Tabs',
-        url: '/base/tabs',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Tooltips',
-        url: '/base/tooltips',
-        icon: 'icon-puzzle'
-      }
-    ]
-  },
-  {
-    name: 'Buttons',
-    url: '/buttons',
+    name: 'Organisations',
+    url: '/org',
     icon: 'icon-cursor',
     children: [
       {
-        name: 'Buttons',
-        url: '/buttons/buttons',
+        name: 'View',
+        url: '/org',
         icon: 'icon-cursor'
       },
       {
-        name: 'Dropdowns',
-        url: '/buttons/dropdowns',
-        icon: 'icon-cursor'
-      },
-      {
-        name: 'Brand Buttons',
-        url: '/buttons/brand-buttons',
+        name: 'Add',
+        url: '/org/add-org',
         icon: 'icon-cursor'
       }
     ]
   },
   {
+    name: 'Wallet',
+    url: '/wallet',
+    icon: 'icon-cursor',
+    children: [
+      {
+        name: 'View',
+        url: '/wallet',
+        icon: 'icon-cursor'
+      },
+      {
+        name: 'Add',
+        url: '/wallet/add-wallet',
+        icon: 'icon-cursor'
+      }
+    ]
+  },
+  {
+    name: 'Events',
+    url: '/events',
+    icon: 'icon-cursor',
+    children: [
+      {
+        name: 'View',
+        url: '/events',
+        icon: 'icon-cursor'
+      },
+      {
+        name: 'Add',
+        url: '/events/add-event',
+        icon: 'icon-cursor'
+      }
+    ]
+  },
+  // {
+  //   name: 'Buttons',
+  //   url: '/buttons',
+  //   icon: 'icon-cursor',
+  //   children: [
+  //     {
+  //       name: 'Buttons',
+  //       url: '/buttons/buttons',
+  //       icon: 'icon-cursor'
+  //     },
+  //     {
+  //       name: 'Dropdowns',
+  //       url: '/buttons/dropdowns',
+  //       icon: 'icon-cursor'
+  //     },
+  //     {
+  //       name: 'Brand Buttons',
+  //       url: '/buttons/brand-buttons',
+  //       icon: 'icon-cursor'
+  //     }
+  //   ]
+  // },
+  /* {
     name: 'Charts',
     url: '/charts',
     icon: 'icon-pie-chart'
@@ -255,20 +306,5 @@ export const navItems: NavData[] = [
       text: 'NEW'
     },
     attributes: { disabled: true },
-  },
-  {
-    name: 'Download CoreUI',
-    url: 'http://coreui.io/angular/',
-    icon: 'icon-cloud-download',
-    class: 'mt-auto',
-    variant: 'success',
-    attributes: { target: '_blank', rel: 'noopener' }
-  },
-  {
-    name: 'Try CoreUI PRO',
-    url: 'http://coreui.io/pro/angular/',
-    icon: 'icon-layers',
-    variant: 'danger',
-    attributes: { target: '_blank', rel: 'noopener' }
-  }
+  } */
 ];

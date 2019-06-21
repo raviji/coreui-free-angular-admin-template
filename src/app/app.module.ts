@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -41,7 +41,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
 import { AuthService } from './core/auth.service';
-import { UserService } from './core/user.service';
+import { UserService } from './core/services/user.service';
 import { AuthGuard } from './core/auth.guard';
 import { UserResolver } from './views/user/user.resolver';
 import { AngularFireModule } from '@angular/fire';
@@ -49,6 +49,11 @@ import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FirebaseService } from './core/services/firebase.service';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material';
+import { ConfirmboxComponent } from './core/shared/confirmbox.component';
+import { SharedModule } from './core/shared.module';
+
 
 @NgModule({
   imports: [
@@ -68,7 +73,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     ChartsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    MatDialogModule,
+    SharedModule
   ],
   declarations: [
     AppComponent,
@@ -76,11 +83,15 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     P404Component,
     P500Component,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ConfirmboxComponent
   ],
+  entryComponents: [ConfirmboxComponent],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy},
-    AuthService, UserService, UserResolver, AuthGuard,
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3500}},
+    AuthService, UserService, UserResolver, AuthGuard, FirebaseService
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [ AppComponent ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

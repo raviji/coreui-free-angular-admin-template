@@ -1,1 +1,20 @@
 // Here you can add other styles
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+mat-form-field{
+    width: 100%;
+}
+input:-internal-autofill-selected {
+    background-color: transparent !important;
+}
+
+a, button, input, select{
+    text-decoration: none;
+    outline: none;
+    &:hover,
+    &:focus{
+      text-decoration: none;
+      outline: none;
+    }
+  }
+ 

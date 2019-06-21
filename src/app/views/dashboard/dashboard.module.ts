@@ -6,6 +6,10 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
+import { SharedModule } from '../../core/shared.module';
+import { NewUserComponent } from './new-user.component';
+import { EditUserComponent } from './edit-user.component';
+import { EditUserResolver } from './edit-user.resolver';
 
 @NgModule({
   imports: [
@@ -13,8 +17,11 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
     DashboardRoutingModule,
     ChartsModule,
     BsDropdownModule,
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    SharedModule
   ],
-  declarations: [ DashboardComponent ]
+  declarations: [ DashboardComponent, NewUserComponent, EditUserComponent ],
+  providers: [EditUserResolver]
 })
+
 export class DashboardModule { }

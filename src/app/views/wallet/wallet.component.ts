@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FirebaseService } from '../../core/services/firebase.service';
+import { WalletService } from '../../core/services/wallet.service';
 import * as firebase from 'firebase/app';
 
 @Component({
-  templateUrl: 'dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  templateUrl: 'wallet.component.html',
+  styleUrls: ['./wallet.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class WalletComponent implements OnInit {
 
   ageValue: number = 0;
   searchValue: string = '';
@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
   name_filtered_items: Array<any>;
   currentUser: any;
   constructor(
-    public firebaseService: FirebaseService,
+    public walletService: WalletService,
     private router: Router
   ) {
     this.currentUser = firebase.auth().currentUser;
@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getData() {
-    this.firebaseService.getUsers()
+    this.walletService.getWallets()
     .subscribe(result => {
       console.log(result);
       this.items = result;
@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit {
   }
 
   viewDetails(item) {
-    this.router.navigate(['/dashboard/edit-user/' + item.payload.doc.id]);
+    this.router.navigate(['/wallet/edit-wallet/' + item.payload.doc.id]);
   }
 
   capitalizeFirstLetter(value) {
@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
 
   searchByName() {
     let value = this.searchValue.toLowerCase();
-    this.firebaseService.searchUsers(value)
+    this.walletService.searchWallets(value)
     .subscribe(result => {
       this.name_filtered_items = result;
       this.items = this.combineLists(result, this.age_filtered_items);
@@ -55,7 +55,7 @@ export class DashboardComponent implements OnInit {
   }
 
   rangeChange(event) {
-    this.firebaseService.searchUsersByAge(event.value)
+    this.walletService.searchWalletsByAge(event.value)
     .subscribe(result => {
       this.age_filtered_items = result;
       this.items = this.combineLists(result, this.name_filtered_items);

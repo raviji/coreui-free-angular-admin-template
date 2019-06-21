@@ -35,6 +35,7 @@ export class DefaultLayoutComponent implements OnDestroy {
   logout() {
     this.authService.doLogout()
     .then((res) => {
+      alert("logout works");
       this.location.back();
     }, (error) => {
       console.log('logout error', error);

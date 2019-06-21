@@ -65,6 +65,18 @@ export const routes: Routes = [
         loadChildren: () => import('./views/chartjs/chartjs.module').then(m => m.ChartJSModule)
       },
       {
+        path: 'org',
+        loadChildren: () => import('./views/org/org.module').then(m => m.OrgModule)
+      },
+      {
+        path: 'events',
+        loadChildren: () => import('./views/events/event.module').then(m => m.EventModule)
+      },
+      {
+        path: 'wallet',
+        loadChildren: () => import('./views/wallet/wallet.module').then(m => m.WalletModule)
+      },
+      {
         path: 'dashboard',
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
@@ -90,7 +102,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
+  imports: [ RouterModule.forRoot(routes, {useHash: true}) ],
   exports: [ RouterModule ]
 })
 export class AppRoutingModule {}
