@@ -18,45 +18,58 @@
               </div>
               <div class="col-6 form-group">
                   <mat-form-field>
-                    <input matInput placeholder="Tin" formControlName="tin_no">
+                    <input matInput placeholder="Email" formControlName="email">
                   </mat-form-field>
               </div>
             </div>
             <div class="row">
                 <div class="col-6 form-group">
                     <mat-form-field>
-                      <input matInput placeholder="Street" formControlName="street">
+                      <input matInput placeholder="Phone" formControlName="phone">
                     </mat-form-field>
                 </div>
                 <div class="col-6 form-group">
                     <mat-form-field>
-                      <input matInput placeholder="City" formControlName="city">
+                      <input matInput placeholder="Address" formControlName="address">
                     </mat-form-field>
                 </div>
             </div>
             <div class="row">
                 <div class="col-6 form-group">
                     <mat-form-field>
-                      <input matInput placeholder="Postal code" formControlName="pin">
+                      <input matInput placeholder="Enter City" formControlName="city">
                     </mat-form-field>
                 </div>
                 <div class="col-6 form-group">
                     <mat-form-field>
-                      <input matInput placeholder="Country" formControlName="country">
+                      <input matInput placeholder="Enter Country" formControlName="country">
                     </mat-form-field>
                 </div>
             </div>   
             <div class="row">
                 <div class="col-6">
                     <mat-form-field>
-                      <mat-select placeholder="Select multiple sports" [formControl]="formControlObj" multiple [compareWith]="compareObjects">
+                      <mat-select placeholder="Select multiple sports" [formControl]="sportsListCtrl" multiple [compareWith]="compareObjects">
                         <mat-select-trigger>
-                          {{formControlObj.value ? formControlObj.value[0] : ''}}
-                          <span *ngIf="formControlObj.value?.length > 1" class="example-additional-selection">
-                            (+{{formControlObj.value.length - 1}} {{formControlObj.value?.length === 2 ? 'other' : 'others'}})
+                          {{sportsListCtrl.value ? sportsListCtrl.value[0] : ''}}
+                          <span *ngIf="sportsListCtrl.value?.length > 1" class="example-additional-selection">
+                            (+{{sportsListCtrl.value.length - 1}} {{sportsListCtrl.value?.length === 2 ? 'other' : 'others'}})
                           </span>
                         </mat-select-trigger>
                         <mat-option *ngFor="let topping of sportsList" [value]="topping.id">{{topping.name}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-6">
+                    <mat-form-field>
+                      <mat-select placeholder="Select multiple apps" [formControl]="appsListCtrl" multiple [compareWith]="compareObjects">
+                        <mat-select-trigger>
+                          {{appsListCtrl.value ? appsListCtrl.value[0] : ''}}
+                          <span *ngIf="appsListCtrl.value?.length > 1" class="example-additional-selection">
+                            (+{{appsListCtrl.value.length - 1}} {{appsListCtrl.value?.length === 2 ? 'other' : 'others'}})
+                          </span>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let topping of appsList" [value]="topping.id">{{topping.name}}</mat-option>
                       </mat-select>
                     </mat-form-field>
                 </div>

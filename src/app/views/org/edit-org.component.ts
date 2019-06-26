@@ -13,8 +13,9 @@ export class EditOrgComponent implements OnInit {
 
   editOrgForm: FormGroup;
   sportsList: any = [];
-  formControlObj = new FormControl();
-  selectedList: any;
+  appsList: any = [];
+  sportsListCtrl = new FormControl();
+  appsListCtrl = new FormControl();
   test: any = [{id: 1}];
   constructor(
     public orgService: OrgService,
@@ -30,24 +31,28 @@ export class EditOrgComponent implements OnInit {
   ngOnInit() {
     this.editOrgForm = this.fb.group({
       name: ['', Validators.required ],
-      tin_no: ['', Validators.required ],
-      street: ['', Validators.required ],
+      email: ['', Validators.required ],
+      phone: ['', Validators.required ],
       city: ['', Validators.required ],
-      pin: ['', Validators.required ],
-      country: ['', Validators.required ]
+      address: ['', Validators.required ],
+      country: ['', Validators.required ],
     });
-    this.formControlObj = new FormControl(this.obj.sportsLists);
+    this.sportsListCtrl = new FormControl(this.obj.sportsLists);
+    this.appsListCtrl = new FormControl(this.obj.appsLists);
     this.setEdit();
     setTimeout(() => {
       this.getSportList();
+      this.getAppList();
       setTimeout(() => {
-        this.formControlObj.setValue(this.formControlObj.value);
+        this.sportsListCtrl.setValue(this.sportsListCtrl.value);
+        this.appsListCtrl.setValue(this.appsListCtrl.value);
       });
     }, 0);
   }
   setEdit() {
     this.editOrgForm.patchValue(this.obj);
-    this.formControlObj.setValue(this.obj.sportsLists);
+    this.sportsListCtrl.setValue(this.obj.sportsLists);
+    this.appsListCtrl.setValue(this.obj.appsLists);
   }
   getSportList() {
     this.orgService.getSports().subscribe( (
@@ -56,9 +61,17 @@ export class EditOrgComponent implements OnInit {
       }
     ));
   }
+  getAppList() {
+    this.orgService.getApps().subscribe( (
+      res => {
+        this.appsList = res;
+      }
+    ));
+  }
   onSubmit(obj) {
     let newObj = {...this.obj, ...obj};
-    newObj.sportsLists = this.formControlObj.value;
+    newObj.sportsLists = this.sportsListCtrl.value;
+    newObj.appsLists = this.appsListCtrl.value;
     // console.log(newObj);
     this.orgService.updateOrg(newObj.id, newObj)
     .then(

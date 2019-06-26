@@ -14,7 +14,7 @@ import { AddOrgComponent } from './add-org.component';
   styleUrls: ['./org.component.scss']
 })
 export class OrgComponent implements OnInit, AfterViewInit{
-  displayedColumns: string[] = ['name', 'email', 'phone', 'address', 'city', 'country', 'sportsLists', 'action'];
+  displayedColumns: string[] = ['name', 'email', 'phone', 'address', 'city', 'country', 'sportsLists', 'appsLists', 'action'];
   dataSource: any;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -25,6 +25,7 @@ export class OrgComponent implements OnInit, AfterViewInit{
   name_filtered_items: Array<any>;
   currentUser: any;
   sportsList: any;
+  appsList: any;
   constructor(
     public orgService: OrgService,
     private router: Router,
@@ -37,6 +38,7 @@ export class OrgComponent implements OnInit, AfterViewInit{
 
   ngOnInit() {
     this.getSportList();
+    this.getAppList();
   }
   ngAfterViewInit() {
     this.getData();
@@ -132,9 +134,28 @@ export class OrgComponent implements OnInit, AfterViewInit{
     ));
   }
 
-  getAppListName(id) {
+  getAppList() {
+    this.orgService.getApps().subscribe( (
+      res => {
+        console.log(res);
+        this.appsList = res;
+      }
+    ));
+  }
+  getSportsListName(id) {
     let appName = '';
     this.sportsList.filter( res => {
+      // console.log(res, id);
+      if (res.id === id) {
+        appName = res.name;
+      }
+    });
+    return appName;
+  }
+
+  getAppListName(id) {
+    let appName = '';
+    this.appsList.filter( res => {
       // console.log(res, id);
       if (res.id === id) {
         appName = res.name;

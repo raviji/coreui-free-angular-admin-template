@@ -55,6 +55,7 @@ export class OrgService {
       nameToSearch: value.name.toLowerCase(),
       email: value.email,
       sportsLists: value.sportsLists,
+      appsLists: value.appsLists,
       address: value.address,
       city: value.city,
       phone: value.phone,
