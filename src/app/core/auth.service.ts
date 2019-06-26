@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
+import { FirebaseService } from './services/firebase.service';
 
 @Injectable()
 export class AuthService {
 
   constructor(
-   public afAuth: AngularFireAuth
+   public afAuth: AngularFireAuth,
+   private _userServ: FirebaseService
  ) {}
 
   doFacebookLogin() {
@@ -16,6 +18,7 @@ export class AuthService {
       this.afAuth.auth
       .signInWithPopup(provider)
       .then(res => {
+        this._userServ.createEmpUser(res.user);
         resolve(res);
       }, err => {
         console.log(err);
@@ -30,6 +33,7 @@ export class AuthService {
       this.afAuth.auth
       .signInWithPopup(provider)
       .then(res => {
+        this._userServ.createEmpUser(res.user);
         resolve(res);
       }, err => {
         console.log(err);
@@ -46,6 +50,7 @@ export class AuthService {
       this.afAuth.auth
       .signInWithPopup(provider)
       .then(res => {
+        this._userServ.createEmpUser(res.user);
         resolve(res);
       }, err => {
         console.log(err);
@@ -58,6 +63,7 @@ export class AuthService {
     return new Promise<any>((resolve, reject) => {
       firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
       .then(res => {
+        this._userServ.createEmpUser(res.user);
         resolve(res);
       }, err => reject(err));
     });
@@ -67,6 +73,7 @@ export class AuthService {
     return new Promise<any>((resolve, reject) => {
       firebase.auth().signInWithEmailAndPassword(value.email, value.password)
       .then(res => {
+        this._userServ.createEmpUser(res.user);
         resolve(res);
       }, err => reject(err));
     });
@@ -82,6 +89,5 @@ export class AuthService {
       }
     });
   }
-
 
 }

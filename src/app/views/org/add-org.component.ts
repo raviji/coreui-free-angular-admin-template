@@ -11,12 +11,13 @@ import { OrgService } from '../../core/services/org.service';
 })
 export class AddOrgComponent implements OnInit {
 
-  addOegForm: FormGroup;
+  addOrgForm: FormGroup;
   avatarLink: string = 'https://s3.amazonaws.com/uifaces/faces/twitter/adellecharles/128.jpg';
-  toppings = new FormControl();
+  selectedSportsList = new FormControl();
   sportsList: any = [];
-// tslint:disable-next-line: max-line-length
-  toppingList: string[] = ['', '', '', '', '', '', '', '', '', '', '', '', ''];
+  selectedAppsList = new FormControl();
+  appsList: any = [];
+
 
   validation_messages = {
    'name': [
@@ -50,16 +51,17 @@ export class AddOrgComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this.getSportList();
+    this.getAppList();
   }
 
   createForm() {
-    this.addOegForm = this.fb.group({
+    this.addOrgForm = this.fb.group({
       name: ['', Validators.required ],
-      tin_no: ['', Validators.required ],
-      street: ['', Validators.required ],
+      email: ['', Validators.required ],
+      phone: ['', Validators.required ],
       city: ['', Validators.required ],
-      pin: ['', Validators.required ],
-      country: ['', Validators.required ]
+      address: ['', Validators.required ],
+      country: ['', Validators.required ],
     });
   }
 
@@ -67,6 +69,14 @@ export class AddOrgComponent implements OnInit {
     this.orgService.getSports().subscribe( (
       res => {
         this.sportsList = res;
+      }
+    ));
+  }
+
+  getAppList() {
+    this.orgService.getApps().subscribe( (
+      res => {
+        this.appsList = res;
         console.log(res);
       }
     ));
@@ -74,23 +84,30 @@ export class AddOrgComponent implements OnInit {
 
   resetFields() {
     this.avatarLink = 'https://s3.amazonaws.com/uifaces/faces/twitter/adellecharles/128.jpg';
-    this.addOegForm = this.fb.group({
+    this.addOrgForm = this.fb.group({
       name: new FormControl('', Validators.required),
       tin_no: new FormControl('', Validators.required),
       street: new FormControl('', Validators.required),
       city: new FormControl('', Validators.required),
       pin: new FormControl('', Validators.required),
       country: new FormControl('', Validators.required),
+      sportsList: new FormControl('', Validators.required),
+      appsList: new FormControl('', Validators.required),
     });
   }
 
-  onSubmit(value) {
-    this.orgService.createOrg(value)
+  onSubmit(obj) {
+
+    obj.sportsLists = this.selectedSportsList.value;
+    obj.appsLists = this.selectedAppsList.value;
+    console.log(obj);
+
+    this.orgService.createOrg(obj)
     .then(
       res => {
         this.dialog.closeAll();
         this.resetFields();
-        this._snackbar.open('Organisation is added successfully!');
+        this._snackbar.open('org is added successfully!');
       }
     );
   }

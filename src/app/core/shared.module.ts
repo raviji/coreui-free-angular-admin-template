@@ -10,7 +10,9 @@ import {
   MatTableModule,
   MatPaginatorModule,
   MatSnackBarModule,
-  MatSelectModule
+  MatSelectModule,
+  MatChipsModule,
+  MatBadgeModule
   } from '@angular/material';
 
 
@@ -28,7 +30,9 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSnackBarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatChipsModule,
+    MatBadgeModule
   ],
   exports: [
     CommonModule,
@@ -42,7 +46,9 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSnackBarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatChipsModule,
+    MatBadgeModule
   ]
 })
 export class SharedModule {

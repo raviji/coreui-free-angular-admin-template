@@ -18,9 +18,13 @@ export class OrgService {
   getSports() {
     return this.db.collection('sports').valueChanges();
   }
+  getApps() {
+    return this.db.collection('apps').valueChanges();
+  }
 
   updateOrg(userKey, value) {
     value.nameToSearch = value.name.toLowerCase();
+    value.updatedAt = new Date().getTime();
     return this.db.collection('orgs').doc(userKey).set(value);
   }
 
@@ -49,13 +53,15 @@ export class OrgService {
       name: value.name,
       id: createdId,
       nameToSearch: value.name.toLowerCase(),
-      tin_no: value.tin_no,
-      street: value.street,
+      email: value.email,
+      sportsLists: value.sportsLists,
+      address: value.address,
       city: value.city,
-      pin: value.pin,
+      phone: value.phone,
       country: value.country,
       userId: firebase.auth().currentUser.uid,
-      createdAt: new Date().getTime()
+      createdAt: new Date().getTime(),
+      updatedAt: null
     });
   }
 }

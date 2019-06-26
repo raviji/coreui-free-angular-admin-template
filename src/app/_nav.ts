@@ -48,11 +48,11 @@ export const navItems: NavData[] = [
     url: '/dashboard/new-user',
     icon: 'icon-drop'
   },
-  // {
-  //   name: 'Typography',
-  //   url: '/theme/typography',
-  //   icon: 'icon-pencil'
-  // },
+  {
+    name: 'Profile',
+    url: '/dashboard/profile',
+    icon: 'icon-user'
+  },
   // {
   //   title: true,
   //   name: 'Components'

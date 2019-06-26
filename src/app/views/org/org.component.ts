@@ -14,7 +14,7 @@ import { AddOrgComponent } from './add-org.component';
   styleUrls: ['./org.component.scss']
 })
 export class OrgComponent implements OnInit, AfterViewInit{
-  displayedColumns: string[] = ['name', 'city', 'pin', 'country', 'action'];
+  displayedColumns: string[] = ['name', 'email', 'phone', 'address', 'city', 'country', 'sportsLists', 'action'];
   dataSource: any;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -24,6 +24,7 @@ export class OrgComponent implements OnInit, AfterViewInit{
   age_filtered_items: Array<any>;
   name_filtered_items: Array<any>;
   currentUser: any;
+  sportsList: any;
   constructor(
     public orgService: OrgService,
     private router: Router,
@@ -31,11 +32,11 @@ export class OrgComponent implements OnInit, AfterViewInit{
     private _snackBar: MatSnackBar
   ) {
     this.currentUser = firebase.auth().currentUser;
-    console.log(this.currentUser.uid);
+    // console.log(this.currentUser.uid);
   }
 
   ngOnInit() {
-
+    this.getSportList();
   }
   ngAfterViewInit() {
     this.getData();
@@ -121,4 +122,25 @@ export class OrgComponent implements OnInit, AfterViewInit{
   addDataDialog(): void {
     this.dialog.open(AddOrgComponent, {width: '450px'});
   }
+
+  getSportList() {
+    this.orgService.getSports().subscribe( (
+      res => {
+        this.sportsList = res;
+        // console.log(res);
+      }
+    ));
+  }
+
+  getAppListName(id) {
+    let appName = '';
+    this.sportsList.filter( res => {
+      // console.log(res, id);
+      if (res.id === id) {
+        appName = res.name;
+      }
+    });
+    return appName;
+  }
+
 }

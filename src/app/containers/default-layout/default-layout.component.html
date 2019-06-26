@@ -16,7 +16,7 @@
       <a class="nav-link">Settings</a>
     </li>
   </ul> -->
-  <ul class="nav navbar-nav ml-auto">
+  <ul class="nav navbar-nav ml-auto" *ngIf="userProfile">
     <li class="nav-item d-md-down-none">
       <a class="nav-link"><i class="icon-bell"></i><span class="badge badge-pill badge-danger">5</span></a>
     </li>
@@ -28,10 +28,12 @@
     </li>
     <li class="nav-item dropdown" dropdown placement="bottom right">
       <a class="nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
-        <img src="assets/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com"/>
+        <img [src]="userProfile.photo" class="img-avatar" [alt]="userProfile.email"/>
       </a>
       <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
-        <a class="dropdown-item"><i class="fa fa-user"></i> Profile</a>
+        <a class="dropdown-item" [routerLink]="['/dashboard/profile']" routerLinkActive="router-link-active">
+          <i class="fa fa-user"></i> {{userProfile.name}} 
+        </a>
         <a class="dropdown-item"><i class="fa fa-wrench"></i> Setting</a>
         <a class="dropdown-item"><i class="fa fa-usd"></i> Payments<span class="badge badge-dark">42</span></a>
         <div class="divider"></div>

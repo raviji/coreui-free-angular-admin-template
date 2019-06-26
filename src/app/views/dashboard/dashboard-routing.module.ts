@@ -6,6 +6,7 @@ import { UserResolver } from '../user/user.resolver';
 import { NewUserComponent } from './new-user.component';
 import { EditUserComponent } from './edit-user.component';
 import { EditUserResolver } from './edit-user.resolver';
+import { ProfileSettingsComponent } from '../profile-settings/profile-settings.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,11 @@ const routes: Routes = [
     data: {
       title: 'Dashboard'
     }
+  },
+  {
+    path: 'profile',
+    component: ProfileSettingsComponent,
+    resolve: {data : UserResolver},
   },
   {
     path: 'new-user',

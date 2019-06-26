@@ -3,10 +3,10 @@
     <div class="card-header">
       <div class="row">
         <div class="col-8">
-          <h4>Organisation</h4>
+          <h4>Lists</h4>
         </div>
         <div class="col-4 text-right">
-          <button mat-raised-button color="primary" (click)="addDataDialog()">Add Organisation</button>
+          <button mat-raised-button color="primary" (click)="addDataDialog()">Add </button>
         </div>
       </div>
     </div>
@@ -21,22 +21,44 @@
               </ng-container>
           
               <!-- Name Column -->
-              <ng-container matColumnDef="city">
-                <th mat-header-cell *matHeaderCellDef> City </th>
-                <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+              <ng-container matColumnDef="phone">
+                <th mat-header-cell *matHeaderCellDef> Phone </th>
+                <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
               </ng-container>
           
               <!-- Weight Column -->
-              <ng-container matColumnDef="pin">
-                <th mat-header-cell *matHeaderCellDef> Pin </th>
-                <td mat-cell *matCellDef="let element"> {{element.pin}} </td>
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
               </ng-container>
+
+              <!-- Weight Column -->
+              <ng-container matColumnDef="address">
+                  <th mat-header-cell *matHeaderCellDef> Address </th>
+                  <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+              <ng-container matColumnDef="city">
+                  <th mat-header-cell *matHeaderCellDef> City </th>
+                  <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+                </ng-container>
           
               <!-- Symbol Column -->
               <ng-container matColumnDef="country">
                 <th mat-header-cell *matHeaderCellDef> Country </th>
                 <td mat-cell *matCellDef="let element"> {{element.country}} </td>
               </ng-container>
+
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="sportsLists">
+                  <th mat-header-cell *matHeaderCellDef> App list </th>
+                  <td mat-cell *matCellDef="let element">                     
+                      <label *ngFor="let item of element.sportsLists">
+                        <span class="badge primary">{{getAppListName(item)}}</span>
+                      </label>
+                  </td>
+                </ng-container>
     
               <!-- Symbol Column -->
               <ng-container matColumnDef="action">

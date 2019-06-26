@@ -1,21 +1,24 @@
-import { Component, OnDestroy, Inject } from '@angular/core';
+import { Component, OnDestroy, Inject, OnInit } from '@angular/core';
 import { DOCUMENT, Location } from '@angular/common';
 import { navItems } from '../../_nav';
 import { AuthService } from '../../core/auth.service';
-
+import { FirebaseService } from '../../core/services/firebase.service';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html'
 })
-export class DefaultLayoutComponent implements OnDestroy {
+export class DefaultLayoutComponent implements OnInit, OnDestroy {
   public navItems = navItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
+  public userProfile: any;
   constructor(
     public authService: AuthService,
     private location: Location,
+    private _user: FirebaseService,
     @Inject(DOCUMENT) _document?: any
     ) {
 
@@ -29,13 +32,20 @@ export class DefaultLayoutComponent implements OnDestroy {
     });
   }
 
+  ngOnInit() {
+    this._user.getEmp(firebase.auth().currentUser.uid).subscribe(
+      res => {
+        this.userProfile =  res;
+      }
+    );
+  }
+
   ngOnDestroy(): void {
     this.changes.disconnect();
   }
   logout() {
     this.authService.doLogout()
     .then((res) => {
-      alert("logout works");
       this.location.back();
     }, (error) => {
       console.log('logout error', error);

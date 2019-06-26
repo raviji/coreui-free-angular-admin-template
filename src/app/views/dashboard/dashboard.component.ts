@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseService } from '../../core/services/firebase.service';
 import * as firebase from 'firebase/app';
-
 @Component({
   templateUrl: 'dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
@@ -20,7 +19,7 @@ export class DashboardComponent implements OnInit {
     private router: Router
   ) {
     this.currentUser = firebase.auth().currentUser;
-    console.log(this.currentUser.uid);
+
   }
 
   ngOnInit() {
@@ -30,7 +29,7 @@ export class DashboardComponent implements OnInit {
   getData() {
     this.firebaseService.getUsers()
     .subscribe(result => {
-      console.log(result);
+      // console.log(result);
       this.items = result;
       this.age_filtered_items = result;
       this.name_filtered_items = result;

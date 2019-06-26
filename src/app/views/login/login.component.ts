@@ -44,6 +44,7 @@ export class LoginComponent {
   tryGoogleLogin() {
     this.authService.doGoogleLogin()
     .then(res => {
+      // console.log(res.user);
       this.router.navigate(['/dashboard']);
     });
   }
@@ -53,7 +54,7 @@ export class LoginComponent {
     .then(res => {
       this.router.navigate(['/dashboard']);
     }, err => {
-      console.log(err);
+      // console.log(err);
       this.errorMessage = err.message;
     });
   }
