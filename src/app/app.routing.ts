@@ -9,6 +9,7 @@ import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { AuthGuard } from './core/auth.guard';
+import { EditOrgResolver } from './views/org/edit-org.resolver';
 
 export const routes: Routes = [
   {
@@ -48,6 +49,7 @@ export const routes: Routes = [
   {
     path: 'org/:id',
     component: OrgLayoutComponent,
+    resolve: {data : EditOrgResolver},
     data: {
       title: 'Org'
     },

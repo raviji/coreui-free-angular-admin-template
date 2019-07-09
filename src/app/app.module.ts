@@ -55,6 +55,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatDialogModule } from '@angular/materia
 import { ConfirmboxComponent } from './core/shared/confirmbox.component';
 import { SharedModule } from './core/shared.module';
 import { UsersService } from './core/services/users.service';
+import { EditOrgResolver } from './views/org/edit-org.resolver';
 
 
 @NgModule({
@@ -91,6 +92,7 @@ import { UsersService } from './core/services/users.service';
   entryComponents: [ConfirmboxComponent],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3500}},
+    EditOrgResolver,
     AuthService, UserService, AuthuserResolver, AuthGuard, FirebaseService, UsersService
   ],
   bootstrap: [ AppComponent ],

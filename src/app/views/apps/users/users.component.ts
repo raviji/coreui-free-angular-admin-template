@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { EditUserComponent } from './edit-user.component';
@@ -27,6 +27,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
   constructor(
     public _userService: UsersService,
     private router: Router,
+    private route: ActivatedRoute,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar
   ) {
@@ -35,6 +36,10 @@ export class UsersComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.route.data.subscribe(routeData => {
+      let data = routeData['data'];
+      console.log(data);
+  });
   }
   ngAfterViewInit() {
     this.getData();
