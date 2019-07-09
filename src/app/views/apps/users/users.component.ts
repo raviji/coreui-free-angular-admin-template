@@ -2,20 +2,20 @@ import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { Router } from '@angular/router';
-import { OrgService } from '../../core/services/org.service';
 import * as firebase from 'firebase/app';
 import { MatDialog, MatSnackBar } from '@angular/material';
-import { EditOrgComponent } from './edit-org.component';
-import { ConfirmboxComponent } from '../../core/shared/confirmbox.component';
-import { AddOrgComponent } from './add-org.component';
+import { EditUserComponent } from './edit-user.component';
+import { ConfirmboxComponent } from '../../../core/shared/confirmbox.component';
+import { AddUserComponent } from './add-user.component';
+import { UsersService } from '../../../core/services/users.service';
 
 @Component({
-  templateUrl: 'org.component.html',
-  styleUrls: ['./org.component.scss']
+  templateUrl: 'users.component.html',
+  styleUrls: ['./users.component.scss']
 })
-export class OrgComponent implements OnInit, AfterViewInit{
-  displayedColumns: string[] = ['name', 'email', 'phone', 'address', 'city', 'country', 'sportsLists', 'appsLists', 'action'];
-  dataSource: any;
+export class UsersComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['name', 'email', 'phone', 'action'];
+  _dataSource: any = [];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ageValue: number = 0;
@@ -24,10 +24,8 @@ export class OrgComponent implements OnInit, AfterViewInit{
   age_filtered_items: Array<any>;
   name_filtered_items: Array<any>;
   currentUser: any;
-  sportsList: any = [];
-  appsList: any = [];
   constructor(
-    public orgService: OrgService,
+    public _userService: UsersService,
     private router: Router,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar
@@ -37,18 +35,17 @@ export class OrgComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit() {
-    this.getSportList();
-    this.getAppList();
   }
   ngAfterViewInit() {
     this.getData();
   }
   getData() {
-    this.orgService.getOrgs()
+    this._userService.getUsers()
     .subscribe(result => {
       console.log(result);
-      this.dataSource = new MatTableDataSource(result);
-      this.dataSource.paginator = this.paginator;
+      this._dataSource = new MatTableDataSource(result);
+      this._dataSource.paginator = this.paginator;
+      // console.log(this._dataSource.length);
       this.items = result;
       this.age_filtered_items = result;
       this.name_filtered_items = result;
@@ -65,7 +62,7 @@ export class OrgComponent implements OnInit, AfterViewInit{
 
   searchByName() {
     let value = this.searchValue.toLowerCase();
-    this.orgService.searchOrgs(value)
+    this._userService.searchUsers(value)
     .subscribe(result => {
       this.name_filtered_items = result;
       this.items = this.combineLists(result, this.age_filtered_items);
@@ -73,7 +70,7 @@ export class OrgComponent implements OnInit, AfterViewInit{
   }
 
   rangeChange(event) {
-    this.orgService.searchOrgsByAge(event.value)
+    this._userService.searchUsersByAge(event.value)
     .subscribe(result => {
       this.age_filtered_items = result;
       this.items = this.combineLists(result, this.name_filtered_items);
@@ -99,7 +96,7 @@ export class OrgComponent implements OnInit, AfterViewInit{
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.orgService.deleteOrg(id)
+        this._userService.deleteUser(id)
         .then(
           res => {
             this._snackBar.open('Ogranisation is deleted successfully!');
@@ -114,57 +111,13 @@ export class OrgComponent implements OnInit, AfterViewInit{
   }
 
   editDataDialog(obj): void {
-    this.dialog.open(EditOrgComponent, {
+    this.dialog.open(EditUserComponent, {
       width: '450px',
       data: obj
     });
   }
   addDataDialog(): void {
-    this.dialog.open(AddOrgComponent, {width: '450px'});
-  }
-
-  getSportList() {
-    this.orgService.getSports().subscribe( (
-      res => {
-        this.sportsList = res;
-        // console.log(res);
-      }
-    ));
-  }
-
-  getAppList() {
-    this.orgService.getApps().subscribe( (
-      res => {
-        console.log(res);
-        this.appsList = res;
-      }
-    ));
-  }
-  getSportsListName(id) {
-    let appName = '';
-    this.sportsList.filter( res => {
-      // console.log(res, id);
-      if (res.id === id) {
-        appName = res.name;
-      }
-    });
-    return appName;
-  }
-
-  getAppListName(id) {
-    let appName = '';
-    this.appsList.filter( res => {
-      // console.log(res, id);
-      if (res.id === id) {
-        appName = res.name;
-      }
-    });
-    return appName;
-  }
-
-  orgDetails(obj) {
-    console.log(obj);
-    this.router.navigate(['/org/apps/' + obj.id]);
+    this.dialog.open(AddUserComponent, {width: '450px'});
   }
 
 }

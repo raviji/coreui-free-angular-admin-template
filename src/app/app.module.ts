@@ -14,7 +14,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 import { AppComponent } from './app.component';
 
 // Import containers
-import { DefaultLayoutComponent } from './containers';
+import { DefaultLayoutComponent, OrgLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
@@ -22,7 +22,8 @@ import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 
 const APP_CONTAINERS = [
-  DefaultLayoutComponent
+  DefaultLayoutComponent,
+  OrgLayoutComponent
 ];
 
 import {
@@ -43,7 +44,7 @@ import { ChartsModule } from 'ng2-charts';
 import { AuthService } from './core/auth.service';
 import { UserService } from './core/services/user.service';
 import { AuthGuard } from './core/auth.guard';
-import { UserResolver } from './views/user/user.resolver';
+import { AuthuserResolver } from './views/user/authuser.resolver';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -53,6 +54,7 @@ import { FirebaseService } from './core/services/firebase.service';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material';
 import { ConfirmboxComponent } from './core/shared/confirmbox.component';
 import { SharedModule } from './core/shared.module';
+import { UsersService } from './core/services/users.service';
 
 
 @NgModule({
@@ -84,12 +86,12 @@ import { SharedModule } from './core/shared.module';
     P500Component,
     LoginComponent,
     RegisterComponent,
-    ConfirmboxComponent
+    ConfirmboxComponent,
   ],
   entryComponents: [ConfirmboxComponent],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3500}},
-    AuthService, UserService, UserResolver, AuthGuard, FirebaseService
+    AuthService, UserService, AuthuserResolver, AuthGuard, FirebaseService, UsersService
   ],
   bootstrap: [ AppComponent ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

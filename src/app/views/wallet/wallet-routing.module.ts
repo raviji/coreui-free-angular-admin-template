@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { WalletComponent } from './wallet.component';
-import { UserResolver } from '../user/user.resolver';
+import { AuthuserResolver } from '../user/authuser.resolver';
 import { NewWalletComponent } from './new-wallet.component';
 import { EditWalletComponent } from './edit-wallet.component';
 import { EditWalletResolver } from './edit-wallet.resolver';
@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: '',
     component: WalletComponent,
-    resolve: {data: UserResolver},
+    resolve: {data: AuthuserResolver},
     data: {
       title: 'Wallet'
     }

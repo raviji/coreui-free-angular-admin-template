@@ -137,6 +137,11 @@ export const navItems: NavData[] = [
     ]
   },
   {
+    name: 'Users',
+    url: '/users',
+    icon: 'icon-user'
+  },
+  {
     name: 'Wallet',
     url: '/wallet',
     icon: 'icon-cursor',

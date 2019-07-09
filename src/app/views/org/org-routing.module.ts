@@ -2,18 +2,27 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { OrgComponent } from './org.component';
-import { UserResolver } from '../user/user.resolver';
+import { AuthuserResolver } from '../user/authuser.resolver';
 import { AddOrgComponent } from './add-org.component';
-import { EditOrgComponent } from './edit-org.component';
 import { EditOrgResolver } from './edit-org.resolver';
+import { DetailsComponent } from './details.component';
+import { UsersComponent } from '../apps/users/users.component';
 
 const routes: Routes = [
   {
     path: '',
     component: OrgComponent,
-    resolve: {data: UserResolver},
+    resolve: {data: AuthuserResolver},
     data: {
       title: 'org'
+    }
+  },
+  {
+    path: 'apps/:id',
+    component: DetailsComponent,
+    resolve: {data : EditOrgResolver},
+    data: {
+      title: 'Apps'
     }
   },
   {
@@ -21,14 +30,6 @@ const routes: Routes = [
     component: AddOrgComponent,
     data: {
       title: 'Add org'
-    }
-  },
-  {
-    path: 'edit-org/:id',
-    component: EditOrgComponent,
-    resolve: {data : EditOrgResolver},
-    data: {
-      title: 'Edit org'
     }
   }
 ];

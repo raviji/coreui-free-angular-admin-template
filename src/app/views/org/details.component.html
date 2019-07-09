@@ -1,0 +1,43 @@
+<div class="row"> 
+    <div class="col-4" *ngIf="selectedApps.indexOf('1') >= 0">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <div class="text-value">Chat</div>
+                <div>Count will be here</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4" *ngIf="selectedApps.indexOf('2') >= 0">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <div class="text-value">Review systems</div>
+                <div>Count will be here</div>
+            </div>
+        </div>
+    </div>       
+    <div class="col-4" *ngIf="selectedApps.indexOf('3') >= 0" (click)="goToLink('users')">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <div class="text-value">Users</div>
+                <div>Count will be here</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4" *ngIf="selectedApps.indexOf('4') >= 0">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <div class="text-value">Booking systems</div>
+                <div>Count will be here</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4" *ngIf="selectedApps.indexOf('5') >= 0">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <div class="text-value">Wallets</div>
+                <div>Count will be here</div>
+            </div>
+        </div>
+    </div>
+</div>
+<router-outlet></router-outlet>

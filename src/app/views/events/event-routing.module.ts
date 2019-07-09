@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { EventComponent } from './event.component';
-import { UserResolver } from '../user/user.resolver';
+import { AuthuserResolver } from '../user/authuser.resolver';
 import { AddEventComponent } from './add-event.component';
 import { EditEventComponent } from './edit-event.component';
 import { EditEventResolver } from './edit-event.resolver';
@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: '',
     component: EventComponent,
-    resolve: {data: UserResolver},
+    resolve: {data: AuthuserResolver},
     data: {
       title: 'Events'
     }

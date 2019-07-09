@@ -1,9 +1,10 @@
+
 <div class="animated fadeIn">
   <div class="card">
     <div class="card-header">
       <div class="row">
         <div class="col-8">
-          <h4>Lists</h4>
+          <h4>Org Lists</h4>
         </div>
         <div class="col-4 text-right">
           <button mat-raised-button color="primary" (click)="addDataDialog()">Add </button>
@@ -73,7 +74,7 @@
               <!-- Symbol Column -->
               <ng-container matColumnDef="action">
                   <th mat-header-cell *matHeaderCellDef> Action </th>
-                  <td mat-cell *matCellDef="let element"> 
+                  <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"> 
                       <button mat-icon-button color="primary" (click)="editDataDialog(element)"><mat-icon>edit</mat-icon></button> 
                     <button mat-icon-button color="primary" (click)="delete(element.id)"><mat-icon>delete</mat-icon></button> 
                   </td>
@@ -81,7 +82,7 @@
               
           
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="orgDetails(row)"></tr>
             </table>
           
             <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

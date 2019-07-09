@@ -10,6 +10,8 @@ import { SharedModule } from '../../core/shared.module';
 import { AddOrgComponent } from './add-org.component';
 import { EditOrgComponent } from './edit-org.component';
 import { EditOrgResolver } from './edit-org.resolver';
+import { DetailsComponent } from './details.component';
+import { UsersComponent } from '../apps/users/users.component';
 
 @NgModule({
   imports: [
@@ -20,7 +22,8 @@ import { EditOrgResolver } from './edit-org.resolver';
     ButtonsModule.forRoot(),
     SharedModule
   ],
-  declarations: [ OrgComponent, AddOrgComponent, EditOrgComponent ],
+  declarations: [ OrgComponent, AddOrgComponent, EditOrgComponent, DetailsComponent ],
+  entryComponents: [EditOrgComponent],
   providers: [EditOrgResolver]
 })
 

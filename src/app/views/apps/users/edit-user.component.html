@@ -1,0 +1,84 @@
+<div class="edit-page">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">Edit Organisation</li>
+    </ol>
+  </nav>
+  <div class="page-content">
+    <div class="row">
+  
+      <div class="col-12">
+
+          <form class="create-form" [formGroup]="editOrgForm" novalidate (ngSubmit)="onSubmit(editOrgForm.value)">
+             <div class="row">
+              <div class="col-6 form-group">
+                  <mat-form-field>
+                    <input matInput placeholder="Organisation name" formControlName="name">
+                  </mat-form-field>
+              </div>
+              <div class="col-6 form-group">
+                  <mat-form-field>
+                    <input matInput placeholder="Email" formControlName="email">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-6 form-group">
+                    <mat-form-field>
+                      <input matInput placeholder="Phone" formControlName="phone">
+                    </mat-form-field>
+                </div>
+                <div class="col-6 form-group">
+                    <mat-form-field>
+                      <input matInput placeholder="Address" formControlName="address">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 form-group">
+                    <mat-form-field>
+                      <input matInput placeholder="Enter City" formControlName="city">
+                    </mat-form-field>
+                </div>
+                <div class="col-6 form-group">
+                    <mat-form-field>
+                      <input matInput placeholder="Enter Country" formControlName="country">
+                    </mat-form-field>
+                </div>
+            </div>   
+            <div class="row">
+                <div class="col-6">
+                    <mat-form-field>
+                      <mat-select placeholder="Select multiple sports" [formControl]="sportsListCtrl" multiple [compareWith]="compareObjects">
+                        <mat-select-trigger>
+                          {{sportsListCtrl.value ? sportsListCtrl.value[0] : ''}}
+                          <span *ngIf="sportsListCtrl.value?.length > 1" class="example-additional-selection">
+                            (+{{sportsListCtrl.value.length - 1}} {{sportsListCtrl.value?.length === 2 ? 'other' : 'others'}})
+                          </span>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let topping of sportsList" [value]="topping.id">{{topping.name}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-6">
+                    <mat-form-field>
+                      <mat-select placeholder="Select multiple apps" [formControl]="appsListCtrl" multiple [compareWith]="compareObjects">
+                        <mat-select-trigger>
+                          {{appsListCtrl.value ? appsListCtrl.value[0] : ''}}
+                          <span *ngIf="appsListCtrl.value?.length > 1" class="example-additional-selection">
+                            (+{{appsListCtrl.value.length - 1}} {{appsListCtrl.value?.length === 2 ? 'other' : 'others'}})
+                          </span>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let topping of appsList" [value]="topping.id">{{topping.name}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                </div>
+              </div>           
+            <button mat-raised-button type="button" (click)="cancel()">Cancel</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="!editOrgForm.valid">Update</button>
+              
+          </form>
+      </div>
+    </div>
+  </div>
+</div>

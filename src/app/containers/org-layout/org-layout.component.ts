@@ -1,15 +1,15 @@
 import { Component, OnDestroy, Inject, OnInit } from '@angular/core';
 import { DOCUMENT, Location } from '@angular/common';
-import { navItems } from '../../_nav';
+import { navItems } from '../../_nav_org';
 import { AuthService } from '../../core/auth.service';
 import { FirebaseService } from '../../core/services/firebase.service';
 import * as firebase from 'firebase';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './default-layout.component.html'
+  selector: 'app-org-dashboard',
+  templateUrl: './org-layout.component.html'
 })
-export class DefaultLayoutComponent implements OnInit, OnDestroy {
+export class OrgLayoutComponent implements OnInit, OnDestroy {
   public navItems = navItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;

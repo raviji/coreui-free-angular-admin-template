@@ -7,11 +7,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FirebaseUserModel } from '../../core/user.model';
 
 @Component({
-  selector: 'app-page-user',
-  templateUrl: 'user.component.html',
-  styleUrls: ['user.scss']
+  selector: 'app-page-authuser',
+  templateUrl: 'authuser.component.html',
+  styleUrls: ['authuser.scss']
 })
-export class UserComponent implements OnInit{
+export class AuthuserComponent implements OnInit {
 
   user: FirebaseUserModel = new FirebaseUserModel();
   profileForm: FormGroup;

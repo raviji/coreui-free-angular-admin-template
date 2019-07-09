@@ -1,32 +1,27 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DashboardComponent } from './dashboard.component';
-import { AuthuserResolver } from '../user/authuser.resolver';
-import { NewUserComponent } from './new-user.component';
+import { UsersComponent } from './users.component';
+import { AuthuserResolver } from '../../user/authuser.resolver';
+import { AddUserComponent } from './add-user.component';
 import { EditUserComponent } from './edit-user.component';
 import { EditUserResolver } from './edit-user.resolver';
-import { ProfileSettingsComponent } from '../profile-settings/profile-settings.component';
+import { WalletComponent } from '../../wallet/wallet.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent,
+    component: UsersComponent,
     resolve: {data: AuthuserResolver},
     data: {
-      title: 'Dashboard'
+      title: 'Users'
     }
   },
   {
-    path: 'profile',
-    component: ProfileSettingsComponent,
-    resolve: {data : AuthuserResolver},
-  },
-  {
-    path: 'new-user',
-    component: NewUserComponent,
+    path: 'add-user',
+    component: AddUserComponent,
     data: {
-      title: 'New User'
+      title: 'Add User'
     }
   },
   {
@@ -43,4 +38,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule {}
+export class UsersRoutingModule {}
