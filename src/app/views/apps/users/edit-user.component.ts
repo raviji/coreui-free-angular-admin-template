@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { OrgService } from '../../../core/services/org.service';
+import { UsersService } from '../../../core/services/users.service';
 
 
 @Component({
@@ -11,80 +12,44 @@ import { OrgService } from '../../../core/services/org.service';
 })
 export class EditUserComponent implements OnInit {
 
-  editOrgForm: FormGroup;
-  sportsList: any = [];
-  appsList: any = [];
-  sportsListCtrl = new FormControl();
-  appsListCtrl = new FormControl();
-  test: any = [{id: 1}];
+  editOrgUserForm: FormGroup;
   constructor(
-    public orgService: OrgService,
+    public orgUserService: UsersService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private _snackBar: MatSnackBar,
-    public dialog: MatDialog,    
+    public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public obj: any
   ) {
     // console.log(this.obj);
   }
 
   ngOnInit() {
-    this.editOrgForm = this.fb.group({
+    this.editOrgUserForm = this.fb.group({
       name: ['', Validators.required ],
-      email: ['', Validators.required ],
-      phone: ['', Validators.required ],
-      city: ['', Validators.required ],
-      address: ['', Validators.required ],
-      country: ['', Validators.required ],
+      email: ['', Validators.required ]
     });
-    this.sportsListCtrl = new FormControl(this.obj.sportsLists);
-    this.appsListCtrl = new FormControl(this.obj.appsLists);
     this.setEdit();
-    setTimeout(() => {
-      this.getSportList();
-      this.getAppList();
-      setTimeout(() => {
-        this.sportsListCtrl.setValue(this.sportsListCtrl.value);
-        this.appsListCtrl.setValue(this.appsListCtrl.value);
-      });
-    }, 0);
   }
   setEdit() {
-    this.editOrgForm.patchValue(this.obj);
-    this.sportsListCtrl.setValue(this.obj.sportsLists);
-    this.appsListCtrl.setValue(this.obj.appsLists);
+    this.editOrgUserForm.patchValue(this.obj);
   }
-  getSportList() {
-    this.orgService.getSports().subscribe( (
-      res => {
-        this.sportsList = res;
-      }
-    ));
-  }
-  getAppList() {
-    this.orgService.getApps().subscribe( (
-      res => {
-        this.appsList = res;
-      }
-    ));
-  }
+
   onSubmit(obj) {
+    console.log(obj);
     let newObj = {...this.obj, ...obj};
-    newObj.sportsLists = this.sportsListCtrl.value;
-    newObj.appsLists = this.appsListCtrl.value;
-    // console.log(newObj);
-    this.orgService.updateOrg(newObj.id, newObj)
+    this.orgUserService.updateOrgUser(newObj)
     .then(
       res => {
-        this._snackBar.open('Ogranisation is updated successfully!');
-        this.editOrgForm.reset();
+        this._snackBar.open('User is updated successfully!');
+        this.editOrgUserForm.reset();
         this.dialog.closeAll();
       }
     );
   }
   cancel() {
     this.dialog.closeAll();
-    this.editOrgForm.reset();
+    this.editOrgUserForm.reset();
   }
 
   compareObjects(o1: any, o2: any): boolean {

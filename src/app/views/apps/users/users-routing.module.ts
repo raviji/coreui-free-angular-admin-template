@@ -6,7 +6,6 @@ import { AuthuserResolver } from '../../user/authuser.resolver';
 import { AddUserComponent } from './add-user.component';
 import { EditUserComponent } from './edit-user.component';
 import { EditUserResolver } from './edit-user.resolver';
-import { WalletComponent } from '../../wallet/wallet.component';
 
 const routes: Routes = [
   {

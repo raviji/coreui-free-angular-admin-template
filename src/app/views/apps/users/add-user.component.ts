@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 // import { AvatarDialogComponent } from '../avatar-dialog/avatar-dialog.component';
 import { Router } from '@angular/router';
 import { OrgService } from '../../../core/services/org.service';
+import { UserService } from '../../../core/services/user.service';
+import { UsersService } from '../../../core/services/users.service';
 
 @Component({
   selector: 'app-add-user',
@@ -11,8 +13,7 @@ import { OrgService } from '../../../core/services/org.service';
 })
 export class AddUserComponent implements OnInit {
 
-  addOrgForm: FormGroup;
-  avatarLink: string = 'https://s3.amazonaws.com/uifaces/faces/twitter/adellecharles/128.jpg';
+  addUserForm: FormGroup;
   selectedSportsList = new FormControl();
   sportsList: any = [];
   selectedAppsList = new FormControl();
@@ -23,21 +24,9 @@ export class AddUserComponent implements OnInit {
    'name': [
      { type: 'required', message: 'Name is required.' }
    ],
-   'tin_no': [
+   'email': [
      { type: 'required', message: 'Tin number is required.' }
-   ],
-   'street': [
-     { type: 'required', message: 'Street is required.' },
-   ],
-   'city': [
-    { type: 'required', message: 'City is required.' },
-  ],
-  'pin': [
-    { type: 'required', message: 'Postal code is required.' },
-  ],
-  'country': [
-    { type: 'required', message: 'Country is required.' },
-  ]
+   ]
  };
 
 
@@ -45,69 +34,40 @@ export class AddUserComponent implements OnInit {
     private fb: FormBuilder,
     public dialog: MatDialog,
     private _snackbar: MatSnackBar,
-    public orgService: OrgService
-  ) { }
+    public orgUserService: UsersService,
+    @Inject(MAT_DIALOG_DATA) public _orgID: any
+  ) {
+    console.log(_orgID);
+  }
 
   ngOnInit() {
     this.createForm();
-    this.getSportList();
-    this.getAppList();
   }
 
   createForm() {
-    this.addOrgForm = this.fb.group({
+    this.addUserForm = this.fb.group({
       name: ['', Validators.required ],
-      email: ['', Validators.required ],
-      phone: ['', Validators.required ],
-      city: ['', Validators.required ],
-      address: ['', Validators.required ],
-      country: ['', Validators.required ],
+      email: ['', Validators.required ]
     });
   }
 
-  getSportList() {
-    this.orgService.getSports().subscribe( (
-      res => {
-        this.sportsList = res;
-      }
-    ));
-  }
-
-  getAppList() {
-    this.orgService.getApps().subscribe( (
-      res => {
-        this.appsList = res;
-        console.log(res);
-      }
-    ));
-  }
-
   resetFields() {
-    this.avatarLink = 'https://s3.amazonaws.com/uifaces/faces/twitter/adellecharles/128.jpg';
-    this.addOrgForm = this.fb.group({
+    this.addUserForm = this.fb.group({
       name: new FormControl('', Validators.required),
-      tin_no: new FormControl('', Validators.required),
-      street: new FormControl('', Validators.required),
-      city: new FormControl('', Validators.required),
-      pin: new FormControl('', Validators.required),
-      country: new FormControl('', Validators.required),
-      sportsList: new FormControl('', Validators.required),
-      appsList: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required)
     });
   }
 
   onSubmit(obj) {
 
-    obj.sportsLists = this.selectedSportsList.value;
-    obj.appsLists = this.selectedAppsList.value;
     console.log(obj);
 
-    this.orgService.createOrg(obj)
+    this.orgUserService.createOrgUser(obj, this._orgID)
     .then(
       res => {
         this.dialog.closeAll();
         this.resetFields();
-        this._snackbar.open('org is added successfully!');
+        this._snackbar.open('User is invited successfully! User can check their mail for further.');
       }
     );
   }

@@ -8,13 +8,14 @@ import { EditUserComponent } from './edit-user.component';
 import { ConfirmboxComponent } from '../../../core/shared/confirmbox.component';
 import { AddUserComponent } from './add-user.component';
 import { UsersService } from '../../../core/services/users.service';
+import { Location } from '@angular/common';
 
 @Component({
   templateUrl: 'users.component.html',
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['name', 'email', 'phone', 'action'];
+  displayedColumns: string[] = ['name', 'email', 'action'];
   _dataSource: any = [];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -24,36 +25,34 @@ export class UsersComponent implements OnInit, AfterViewInit {
   age_filtered_items: Array<any>;
   name_filtered_items: Array<any>;
   currentUser: any;
+  currentOrgId: any;
   constructor(
     public _userService: UsersService,
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    public url: Location
   ) {
     this.currentUser = firebase.auth().currentUser;
     // console.log(this.currentUser.uid);
   }
 
   ngOnInit() {
-    this.route.data.subscribe(routeData => {
-      let data = routeData['data'];
-      console.log(data);
-  });
+    let stringToSplit = this.url.path().toString();
+    let x = stringToSplit.split('/');
+    console.log(x[2]);
+    this.currentOrgId = x[2];
+    this.getData(x[2]);
   }
   ngAfterViewInit() {
-    this.getData();
+    // this.getData();
   }
-  getData() {
-    this._userService.getUsers()
+  getData(key) {
+    this._userService.getOrgUsers(key)
     .subscribe(result => {
+      this._dataSource = result;
       console.log(result);
-      this._dataSource = new MatTableDataSource(result);
-      this._dataSource.paginator = this.paginator;
-      // console.log(this._dataSource.length);
-      this.items = result;
-      this.age_filtered_items = result;
-      this.name_filtered_items = result;
     });
   }
 
@@ -65,22 +64,22 @@ export class UsersComponent implements OnInit, AfterViewInit {
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
 
-  searchByName() {
-    let value = this.searchValue.toLowerCase();
-    this._userService.searchUsers(value)
-    .subscribe(result => {
-      this.name_filtered_items = result;
-      this.items = this.combineLists(result, this.age_filtered_items);
-    });
-  }
+  // searchByName() {
+  //   let value = this.searchValue.toLowerCase();
+  //   this._userService.searchUsers(value)
+  //   .subscribe(result => {
+  //     this.name_filtered_items = result;
+  //     this.items = this.combineLists(result, this.age_filtered_items);
+  //   });
+  // }
 
-  rangeChange(event) {
-    this._userService.searchUsersByAge(event.value)
-    .subscribe(result => {
-      this.age_filtered_items = result;
-      this.items = this.combineLists(result, this.name_filtered_items);
-    });
-  }
+  // rangeChange(event) {
+  //   this._userService.searchUsersByAge(event.value)
+  //   .subscribe(result => {
+  //     this.age_filtered_items = result;
+  //     this.items = this.combineLists(result, this.name_filtered_items);
+  //   });
+  // }
 
   combineLists(a, b) {
     let result = [];
@@ -101,9 +100,10 @@ export class UsersComponent implements OnInit, AfterViewInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this._userService.deleteUser(id)
+        this._userService.deleteOrgUser(this.currentOrgId, id)
         .then(
           res => {
+            this.getData(this.currentOrgId);
             this._snackBar.open('Ogranisation is deleted successfully!');
           },
           err => {
@@ -116,13 +116,17 @@ export class UsersComponent implements OnInit, AfterViewInit {
   }
 
   editDataDialog(obj): void {
+    obj.orgId = this.currentOrgId;
+    console.log(obj);
+    
     this.dialog.open(EditUserComponent, {
       width: '450px',
       data: obj
     });
   }
   addDataDialog(): void {
-    this.dialog.open(AddUserComponent, {width: '450px'});
+    this.dialog.open(AddUserComponent, {width: '450px', data: this.currentOrgId});
+    this.getData(this.currentOrgId);
   }
 
 }

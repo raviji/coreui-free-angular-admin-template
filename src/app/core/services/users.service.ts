@@ -7,45 +7,43 @@ import * as firebase from 'firebase/app';
 })
 export class UsersService {
   constructor(public db: AngularFirestore) {
-    
+
   }
 
-  getUser(userKey) {
-    return this.db.collection('users').doc(userKey).snapshotChanges();
+  getOrgUsers(orgKey) {
+    return this.db.collection(`orgs/${orgKey}/users`).valueChanges();
   }
-  updateUser(userKey, value) {
-    value.nameToSearch = value.name.toLowerCase();
-    value.updatedAt = new Date().getTime();
-    return this.db.collection('users').doc(userKey).set(value);
-  }
-
-  deleteUser(userKey) {
-    return this.db.collection('users').doc(userKey).delete();
+  updateOrgUser(obj) {
+    console.log(obj);
+    obj.updatedAt = new Date().getTime();
+    return this.db.collection(`orgs/${obj.orgId}/users`).doc(obj.id).set(obj);
   }
 
-  getUsers() {
-    return this.db.collection('users').valueChanges();
+  deleteOrgUser(orgKey, userKey) {
+    return this.db.collection(`orgs/${orgKey}/users`).doc(userKey).delete();
   }
 
-  searchUsers(searchValue) {
-    return this.db.collection('users', ref => ref.where('nameToSearch', '>=', searchValue)
-      .where('nameToSearch', '<=', searchValue + '\uf8ff'))
-      .snapshotChanges();
-  }
+  // searchUsers(searchValue) {
+  //   return this.db.collection('users', ref => ref.where('nameToSearch', '>=', searchValue)
+  //     .where('nameToSearch', '<=', searchValue + '\uf8ff'))
+  //     .snapshotChanges();
+  // }
 
-  searchUsersByAge(value) {
-    return this.db.collection('users', ref => ref.orderBy('age').startAt(value)).snapshotChanges();
-  }
+  // searchUsersByAge(value) {
+  //   return this.db.collection('users', ref => ref.orderBy('age').startAt(value)).snapshotChanges();
+  // }
 
 
-  createUser(value) {
-    let createdId = this.db.createId();
-    return this.db.collection('users').doc(createdId).set({
+  createOrgUser(value, id) {
+    const createdId = this.db.createId();
+      return this.db.collection('orgs').doc(id).collection('users').doc(createdId).set({
       name: value.name,
       id: createdId,
-      createdBy: value.createdBy,
+      role: '',
+      createdBy: id,
       email: value.email,
-      phone: value.phone,
+      phone: '',
+      photoUrl: '',
       createdAt: new Date().getTime(),
       updatedAt: null
     });

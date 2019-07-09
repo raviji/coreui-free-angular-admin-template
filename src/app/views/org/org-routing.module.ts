@@ -6,7 +6,6 @@ import { AuthuserResolver } from '../user/authuser.resolver';
 import { AddOrgComponent } from './add-org.component';
 import { EditOrgResolver } from './edit-org.resolver';
 import { DetailsComponent } from './details.component';
-import { UsersComponent } from '../apps/users/users.component';
 
 const routes: Routes = [
   {

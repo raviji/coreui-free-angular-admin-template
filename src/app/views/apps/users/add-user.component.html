@@ -1,12 +1,12 @@
 
-<form class="create-form" [formGroup]="addOrgForm" novalidate (ngSubmit)="onSubmit(addOrgForm.value)">
+<form class="create-form" [formGroup]="addUserForm" novalidate (ngSubmit)="onSubmit(addUserForm.value)">
      <div class="row">
       <div class="col-6 form-group">
           <mat-form-field>
-            <input matInput placeholder="Organisation name" formControlName="name">
+            <input matInput placeholder="Full name" formControlName="name">
           </mat-form-field>
           <ng-container *ngFor="let validation of validation_messages.name">
-            <mat-error *ngIf="addOrgForm.get('name').hasError(validation.type) && (addOrgForm.get('name').dirty || addOrgForm.get('name').touched)">{{validation.message}}</mat-error>
+            <mat-error *ngIf="addUserForm.get('name').hasError(validation.type) && (addUserForm.get('name').dirty || addUserForm.get('name').touched)">{{validation.message}}</mat-error>
           </ng-container>
       </div>
       <div class="col-6 form-group">
@@ -15,58 +15,7 @@
           </mat-form-field>
       </div>
     </div>
-    <div class="row">
-        <div class="col-6 form-group">
-            <mat-form-field>
-                <input matInput placeholder="Phone" formControlName="phone">
-            </mat-form-field>
-        </div>
-        <div class="col-6 form-group">
-            <mat-form-field>
-                <input matInput placeholder="Stree, Area" formControlName="address">
-            </mat-form-field>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-6 form-group">
-            <mat-form-field>
-              <input matInput placeholder="City" formControlName="city">
-            </mat-form-field>
-        </div>
-        <div class="col-6 form-group">
-            <mat-form-field>
-              <input matInput placeholder="Country" formControlName="country">
-            </mat-form-field>
-        </div>
-    </div>
-    <div class="row">
-      <div class="col-6">
-          <mat-form-field>
-            <mat-select placeholder="Select sports" [formControl]="selectedSportsList" multiple >
-              <mat-select-trigger>
-                  {{selectedSportsList.value ? selectedSportsList.value[0] : ''}}
-                  <span *ngIf="selectedSportsList.value?.length > 1" class="example-additional-selection">
-                    (+{{selectedSportsList.value.length - 1}} {{selectedSportsList.value?.length === 2 ? 'other' : 'others'}})
-                  </span>
-              </mat-select-trigger>
-              <mat-option *ngFor="let topping of sportsList" [value]="topping.id">{{topping.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-      </div>
-      <div class="col-6">
-          <mat-form-field>
-            <mat-select placeholder="Select apps" [formControl]="selectedAppsList" multiple >
-              <mat-select-trigger>
-                  {{selectedAppsList.value ? selectedAppsList.value[0] : ''}}
-                  <span *ngIf="selectedAppsList.value?.length > 1" class="example-additional-selection">
-                    (+{{selectedAppsList.value.length - 1}} {{selectedAppsList.value?.length === 2 ? 'other' : 'others'}})
-                  </span>
-              </mat-select-trigger>
-              <mat-option *ngFor="let topping of appsList" [value]="topping.id">{{topping.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-      </div>
-    </div>
+    
     <button mat-raised-button (click)="onNoClick()" type="button">Cancel</button>
-    <button mat-raised-button color="primary" type="submit" [disabled]="!addOrgForm.valid">Submit</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!addUserForm.valid">Invite</button>
 </form>
