@@ -14,7 +14,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 import { AppComponent } from './app.component';
 
 // Import containers
-import { DefaultLayoutComponent, OrgLayoutComponent } from './containers';
+import { DefaultLayoutComponent, OrgLayoutComponent, UsersLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
@@ -23,7 +23,8 @@ import { RegisterComponent } from './views/register/register.component';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent,
-  OrgLayoutComponent
+  OrgLayoutComponent,
+  UsersLayoutComponent
 ];
 
 import {
@@ -56,6 +57,7 @@ import { ConfirmboxComponent } from './core/shared/confirmbox.component';
 import { SharedModule } from './core/shared.module';
 import { UsersService } from './core/services/users.service';
 import { EditOrgResolver } from './views/org/edit-org.resolver';
+import { ShareService } from './core/services/share.service';
 
 
 @NgModule({
@@ -93,6 +95,7 @@ import { EditOrgResolver } from './views/org/edit-org.resolver';
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3500}},
     EditOrgResolver,
+    ShareService,
     AuthService, UserService, AuthuserResolver, AuthGuard, FirebaseService, UsersService
   ],
   bootstrap: [ AppComponent ],

@@ -10,6 +10,7 @@ import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { AuthGuard } from './core/auth.guard';
 import { EditOrgResolver } from './views/org/edit-org.resolver';
+import { UsersLayoutComponent } from './containers/users-layout';
 
 export const routes: Routes = [
   {
@@ -61,6 +62,19 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'common',
+    component: UsersLayoutComponent,
+    data: {
+      title: ''
+    },
+    children: [
+      {
+        path: 'users',
+        loadChildren: () => import('./views/apps/users/users.module').then(m => m.UsersModule)
+      }
+    ]
+  },
+  {
     path: '',
     component: DefaultLayoutComponent,
     data: {
@@ -71,14 +85,18 @@ export const routes: Routes = [
         path: 'org',
         loadChildren: () => import('./views/org/org.module').then(m => m.OrgModule)
       },
-      // {
-      //   path: 'events',
-      //   loadChildren: () => import('./views/events/event.module').then(m => m.EventModule)
-      // },
-      // {
-      //   path: 'wallet',
-      //   loadChildren: () => import('./views/wallet/wallet.module').then(m => m.WalletModule)
-      // },
+      {
+        path: 'sharing',
+        loadChildren: () => import('./views/court-sharing/sharing.module').then(m => m.SharingModule)
+      },
+      {
+        path: 'events',
+        loadChildren: () => import('./views/events/event.module').then(m => m.EventModule)
+      },
+      {
+        path: 'wallet',
+        loadChildren: () => import('./views/wallet/wallet.module').then(m => m.WalletModule)
+      },
       {
         path: 'dashboard',
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)

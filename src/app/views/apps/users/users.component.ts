@@ -104,7 +104,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
         .then(
           res => {
             this.getData(this.currentOrgId);
-            this._snackBar.open('Ogranisation is deleted successfully!');
+            this._snackBar.open('User is deleted successfully!');
           },
           err => {
             this._snackBar.open(err);
@@ -112,13 +112,11 @@ export class UsersComponent implements OnInit, AfterViewInit {
         );
       }
     });
-
   }
 
   editDataDialog(obj): void {
     obj.orgId = this.currentOrgId;
     console.log(obj);
-    
     this.dialog.open(EditUserComponent, {
       width: '450px',
       data: obj

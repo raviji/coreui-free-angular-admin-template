@@ -49,6 +49,11 @@ export const navItems: NavData[] = [
     icon: 'icon-drop'
   },
   {
+    name: 'sharing',
+    url: '/sharing',
+    icon: 'icon-drop'
+  },
+  {
     name: 'Profile',
     url: '/dashboard/profile',
     icon: 'icon-user'

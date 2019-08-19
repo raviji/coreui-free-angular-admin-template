@@ -12,7 +12,10 @@ import {
   MatSnackBarModule,
   MatSelectModule,
   MatChipsModule,
-  MatBadgeModule
+  MatBadgeModule,
+  MatDatepickerModule,
+  MatCheckboxModule,
+  MatNativeDateModule
   } from '@angular/material';
 
 
@@ -32,7 +35,10 @@ import {
     MatSnackBarModule,
     MatSelectModule,
     MatChipsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatDatepickerModule,
+    MatCheckboxModule,
+    MatNativeDateModule
   ],
   exports: [
     CommonModule,
@@ -48,7 +54,10 @@ import {
     MatSnackBarModule,
     MatSelectModule,
     MatChipsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatDatepickerModule,
+    MatCheckboxModule,
+    MatNativeDateModule
   ]
 })
 export class SharedModule {
