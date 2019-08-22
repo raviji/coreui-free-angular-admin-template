@@ -1,19 +1,24 @@
-<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="groupForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <mat-form-field class="input-style">
+        <input matInput placeholder="Group name" class="form-control" formControlName="groupName">
+      </mat-form-field>
+    </div>
   <mat-select-autocomplete
     [placeholder]="'Select people'"
     [options]="data"
     [multiple]='true'
     name="optionsSelector"
     ngDefaultControl
-    [formControl]="profileForm.controls['selected']">
+    [formControl]="groupForm.controls['selectedPplList']">
     <!-- To use formControl within formGroup, provide [formControl] = formGroupName.controls[‘formControlName’] otherwise just [formControl] = ‘formControlName’ -->
   </mat-select-autocomplete>
   
 
 
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-raised-button cdkFocusInitial type="submit" [mat-dialog-close]="profileForm.value" color="primary">Submit</button>
+  <button mat-button type="button" (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button cdkFocusInitial type="submit" [mat-dialog-close]="groupForm.value" [disabled]="!groupForm.get('groupName').valid || !groupForm.get('selectedPplList').valid" color="primary">Submit</button>
 </div>
 
 </form>

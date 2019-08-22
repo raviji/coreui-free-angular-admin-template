@@ -77,4 +77,9 @@ export class ShareService {
       createdAt: new Date().getTime()
     });
   }
+  // Create Group
+  createGroup(obj) {
+    obj.id = this.db.createId();
+    return this.db.collection('share-Groups').doc(obj.id).set(obj);
+  }
 }
