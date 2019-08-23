@@ -6,6 +6,7 @@ import * as firebase from 'firebase/app';
   providedIn: 'root'
 })
 export class FirebaseService {
+  peopleDoc: any;
   constructor(public db: AngularFirestore) {}
 
   getAvatars() {
@@ -15,7 +16,6 @@ export class FirebaseService {
   getUser(userKey) {
     return this.db.collection('users').doc(userKey).snapshotChanges();
   }
-
   updateUser(userKey, value) {
     value.nameToSearch = value.name.toLowerCase();
     return this.db.collection('users').doc(userKey).set(value);
@@ -55,7 +55,10 @@ export class FirebaseService {
     // console.log(userKey);
     return this.db.collection('emp').doc(userKey).valueChanges();
   }
-
+  getPeopleById(id) {
+    this.peopleDoc = this.db.doc(`emp/${id}`);
+    return this.peopleDoc.get();
+  }
   getEmps() {
     return this.db.collection('emp').valueChanges();
   }

@@ -38,30 +38,30 @@ export class ShareService {
     // this.shareDoc.delete();
   }
 
-  getCoutShare(userKey) {
+  getCourtShare(userKey) {
     return this.db.collection('court-share').doc(userKey).snapshotChanges();
   }
 
-  updateCoutShare(userKey, value) {
+  updateCourtShare(userKey, value) {
     value.nameToSearch = value.name.toLowerCase();
     return this.db.collection('court-share').doc(userKey).set(value);
   }
 
-  deleteCoutShare(userKey) {
+  deleteCourtShare(userKey) {
     return this.db.collection('court-share').doc(userKey).delete();
   }
 
-  getCoutShares() {
+  getCourtShares() {
     return this.db.collection('court-share').snapshotChanges();
   }
 
-  searchCoutShares(searchValue) {
+  searchCourtShares(searchValue) {
     return this.db.collection('court-share', ref => ref.where('nameToSearch', '>=', searchValue)
       .where('nameToSearch', '<=', searchValue + '\uf8ff'))
       .snapshotChanges();
   }
 
-  searchCoutSharesByDate(value) {
+  searchCourtSharesByDate(value) {
     return this.db.collection('court-share', ref => ref.orderBy('when').startAt(value)).snapshotChanges();
   }
 
@@ -76,6 +76,18 @@ export class ShareService {
       userId: firebase.auth().currentUser.uid,
       createdAt: new Date().getTime()
     });
+  }
+  // Group Details
+
+  getGroups() {
+    return this.db.collection('share-Groups').valueChanges();
+  }
+  updateGroup(userKey, obj) {
+    return this.db.collection('share-Groups').doc(userKey).set(obj);
+  }
+
+  deleteGroup(userKey) {
+    return this.db.collection('share-Groups').doc(userKey).delete();
   }
   // Create Group
   createGroup(obj) {

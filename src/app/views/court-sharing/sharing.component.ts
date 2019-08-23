@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FirebaseService } from '../../core/services/firebase.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatTableDataSource } from '@angular/material';
 import { SelectAutocompleteComponent } from 'mat-select-autocomplete';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import * as firebase from 'firebase/app';
@@ -15,14 +15,20 @@ import { ShareService } from '../../core/services/share.service';
 
 export class SharingComponent implements OnInit {
     animal: string;
+    username: any;
     name: string;
     options: any = [];
     peopleData: any;
     selectedPeople: any = [];
+    displayedColumns: string[] = ['groupName', 'selectedPplList', 'createdAt', 'action'];
+    dataSource: any;
+    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
     constructor(private _users: FirebaseService, public dialog: MatDialog, private _shareSer: ShareService) {}
 
     ngOnInit() {
         this.getAllUsers();
+        this.getGroupData();
+        //this.getUserName();
     }
 
     getAllUsers() {
@@ -68,8 +74,32 @@ export class SharingComponent implements OnInit {
             //     });
             // });
         });
+    }
+    getGroupData() {
+        this._shareSer.getGroups().subscribe((result: any) => {
+            console.log(result);
+            this.dataSource = new MatTableDataSource(result);
+            this.dataSource.paginator = this.paginator;
+        });
+    }
+    deleteGroup(key) {
+        this._shareSer.deleteGroup(key).then(res => {
+            console.log('deleted sucessfully');
+        }).catch(err => {
+            console.log(err);
+        });
+    }
 
-
+    getUserName(obj) {
+        const usrs = [];
+        obj.forEach((item) => {
+            console.log(item);
+            let data = this.peopleData.filter(people => people.empId === item)[0];
+            usrs.push(data.name);
+        });
+        return usrs;
+    }
+    groupDetails(row) {
 
     }
 }
@@ -79,37 +109,37 @@ export class SharingComponent implements OnInit {
     changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'app-add-people',
     templateUrl: './modal/add-people.component.html',
-  })
-  export class AddPeopleComponent implements OnInit{
-    obj: any = {name: 'ravi', email: 'html5ravi@gmail.com'};
-    @ViewChild(SelectAutocompleteComponent, {static: false}) multiSelect: SelectAutocompleteComponent;
-    groupForm = new FormGroup({
-        selectedPplList: new FormControl([], [Validators.required]),
-        groupName: new FormControl('', [
-            Validators.required
-          ])
-    });
-    constructor(public dialogRef: MatDialogRef<AddPeopleComponent>,
-        private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
-        // console.log(data);
+})
+export class AddPeopleComponent implements OnInit {
+obj: any = {name: 'ravi', email: 'html5ravi@gmail.com'};
+@ViewChild(SelectAutocompleteComponent, {static: false}) multiSelect: SelectAutocompleteComponent;
+groupForm = new FormGroup({
+    selectedPplList: new FormControl([], [Validators.required]),
+    groupName: new FormControl('', [
+        Validators.required
+        ])
+});
+constructor(public dialogRef: MatDialogRef<AddPeopleComponent>,
+    private fb: FormBuilder,
+@Inject(MAT_DIALOG_DATA) public data: any) {
+    // console.log(data);
+}
+
+ngOnInit() {
+    // this.createForm();
     }
-
-    ngOnInit() {
-        // this.createForm();
-      }
-      onNoClick(): void {
-        this.dialogRef.close();
-      }
-    // createForm() {
-    //     this.groupForm = this.fb.group({
-    //         groupName: ['', Validators.required ],
-    //         selected: [[], Validators.required ]
-    //     });
-    //   }
-
-    onSubmit() {
-    console.log(this.groupForm.value);
+    onNoClick(): void {
+    this.dialogRef.close();
     }
+// createForm() {
+//     this.groupForm = this.fb.group({
+//         groupName: ['', Validators.required ],
+//         selected: [[], Validators.required ]
+//     });
+//   }
 
-  }
+onSubmit() {
+console.log(this.groupForm.value);
+}
+
+}
