@@ -21,7 +21,7 @@ const routes: Routes = [
     component: DetailsComponent,
     resolve: {data : EditOrgResolver},
     data: {
-      title: 'Apps'
+      title: 'Details'
     }
   },
   {

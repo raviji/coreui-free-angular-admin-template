@@ -1,11 +1,12 @@
 import { Component, OnInit, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FirebaseService } from '../../core/services/firebase.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatTableDataSource, MatSnackBar } from '@angular/material';
 import { SelectAutocompleteComponent } from 'mat-select-autocomplete';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import * as firebase from 'firebase/app';
 import { ShareService } from '../../core/services/share.service';
-
+import { ConfirmboxComponent } from '../../core/shared/confirmbox.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sharing',
@@ -20,20 +21,21 @@ export class SharingComponent implements OnInit {
     options: any = [];
     peopleData: any;
     selectedPeople: any = [];
-    displayedColumns: string[] = ['groupName', 'selectedPplList', 'createdAt', 'action'];
+    displayedColumns: string[] = ['groupName', 'selectedPplList', 'createdAt', 'updatedAt', 'action'];
     dataSource: any;
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-    constructor(private _users: FirebaseService, public dialog: MatDialog, private _shareSer: ShareService) {}
+    // tslint:disable-next-line: max-line-length
+    constructor(private _users: FirebaseService, private router: Router, public dialog: MatDialog, private _shareSer: ShareService, private _snackBar: MatSnackBar) {}
 
     ngOnInit() {
         this.getAllUsers();
         this.getGroupData();
-        //this.getUserName();
     }
 
     getAllUsers() {
         this._users.getEmps().subscribe(
             (users: any) => {
+                console.log(users);
                 this.peopleData = users;
                 users.forEach(el => {
                     this.options.push({
@@ -46,61 +48,74 @@ export class SharingComponent implements OnInit {
     }
 
     addPeople(): void {
-
         const dialogRef = this.dialog.open(AddPeopleComponent, {
             width: '300px',
-            data: this.options
+            data: this.peopleData
         });
-
         dialogRef.afterClosed().subscribe(result => {
-            // console.log(result);
-            // Creating Group
-            if (result) {
-                result.createdAt = Date.now();
+            if (result.createdAt === undefined) {
+                // console.log(result, 'add');
+                 result.createdAt = Date.now();
                 result.updatedAt = Date.now();
                 result.createdBy = firebase.auth().currentUser.uid;
+                result.userId = firebase.auth().currentUser.uid;
                 this._shareSer.createGroup(result).then(val => {
-                    console.log(val, 'successfully added group');
+                    this._snackBar.open('successfully added group');
                 }).catch(err => {
-                    console.log(err, 'Error creating group!');
+                    this._snackBar.open(err, 'Error creating group!');
                 });
             }
-            // result.selected.forEach((el) => {
-            //     this.peopleData.forEach(pl => {
-            //         if (el === pl.empId) {
-            //             this.selectedPeople.push(pl.empId);
-            //             // console.log(this.selectedPeople);
-            //         }
-            //     });
-            // });
+        });
+    }
+
+    editGroupDataDialog(obj) {
+        const dialogRef = this.dialog.open(AddPeopleComponent, {
+            width: '300px',
+            data: obj
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                obj.updatedAt = Date.now();
+                obj.groupName = result.groupName;
+                obj.selectedPplList = result.selectedPplList;
+                this._shareSer.updateGroup(obj.id, obj).then(val => {
+                    this._snackBar.open('Group details Successfully Modified!');
+                }).catch(err => {
+                    this._snackBar.open('Error Modifying group!');
+                });
+            }
         });
     }
     getGroupData() {
         this._shareSer.getGroups().subscribe((result: any) => {
-            console.log(result);
+            // console.log(result);
             this.dataSource = new MatTableDataSource(result);
             this.dataSource.paginator = this.paginator;
         });
     }
     deleteGroup(key) {
-        this._shareSer.deleteGroup(key).then(res => {
-            console.log('deleted sucessfully');
-        }).catch(err => {
-            console.log(err);
-        });
+        const dialogRef = this.dialog.open(ConfirmboxComponent, {
+            width: '350px',
+            data: 'Do you confirm the deletion of this Group?'
+          });
+          dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this._shareSer.deleteGroup(key)
+              .then(
+                res => {
+                  this._snackBar.open('Your group is deleted successfully!');
+                },
+                err => {
+                  this._snackBar.open(err);
+                }
+              );
+            }
+          });
     }
 
-    getUserName(obj) {
-        const usrs = [];
-        obj.forEach((item) => {
-            console.log(item);
-            let data = this.peopleData.filter(people => people.empId === item)[0];
-            usrs.push(data.name);
-        });
-        return usrs;
-    }
-    groupDetails(row) {
-
+    groupDetails(obj: any) {
+        // console.log(obj);
+        this.router.navigate([`/sharing/${obj.id}`]);
     }
 }
 
@@ -111,35 +126,48 @@ export class SharingComponent implements OnInit {
     templateUrl: './modal/add-people.component.html',
 })
 export class AddPeopleComponent implements OnInit {
-obj: any = {name: 'ravi', email: 'html5ravi@gmail.com'};
-@ViewChild(SelectAutocompleteComponent, {static: false}) multiSelect: SelectAutocompleteComponent;
-groupForm = new FormGroup({
-    selectedPplList: new FormControl([], [Validators.required]),
-    groupName: new FormControl('', [
-        Validators.required
-        ])
-});
-constructor(public dialogRef: MatDialogRef<AddPeopleComponent>,
-    private fb: FormBuilder,
-@Inject(MAT_DIALOG_DATA) public data: any) {
-    // console.log(data);
-}
 
-ngOnInit() {
-    // this.createForm();
+@ViewChild(SelectAutocompleteComponent, {static: false}) multiSelect: SelectAutocompleteComponent;
+    groupForm = new FormGroup({
+        selectedPplList: new FormControl([], [Validators.required]),
+        groupName: new FormControl('', [Validators.required])
+    });
+    options: any = [];
+    peopleData: any;
+    selectedOptions: any = [];
+    constructor(public dialogRef: MatDialogRef<AddPeopleComponent>,
+        private fb: FormBuilder,
+        private _users: FirebaseService,
+        @Inject(MAT_DIALOG_DATA) public data: any) {
+            // console.log(data);
+    }
+
+    ngOnInit() {
+        if (this.data.createdAt) {
+                this.setForm();
+                this.getAllUsers();
+        } else {
+            this.selectedOptions = [];
+        }
+    }
+    getAllUsers() {
+        this._users.getEmps().subscribe(
+            (users: any) => {
+                this.data = users;
+            }
+        );
     }
     onNoClick(): void {
-    this.dialogRef.close();
+        this.dialogRef.close();
     }
-// createForm() {
-//     this.groupForm = this.fb.group({
-//         groupName: ['', Validators.required ],
-//         selected: [[], Validators.required ]
-//     });
-//   }
-
-onSubmit() {
-console.log(this.groupForm.value);
-}
+    setForm() {
+        this.groupForm.get('groupName').setValue(this.data.groupName);
+        this.selectedOptions = this.data.selectedPplList;
+        // console.log(this.selectedOptions);
+    }
+    onSubmit() {
+        // console.log(this.groupForm.value);
+    }
 
 }
+

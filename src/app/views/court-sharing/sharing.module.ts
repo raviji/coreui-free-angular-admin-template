@@ -6,14 +6,16 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 import { SharingRoutingModule } from './sharing-routing.module';
 import { SharedModule } from '../../core/shared.module';
-import { CourtSharingComponent } from './court-sharing.component';
 import { SharingComponent, AddPeopleComponent } from './sharing.component';
 import { SelectAutocompleteModule } from 'mat-select-autocomplete';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { GroupDetailsComponent, AppShareDataDialogComponent } from './group-details.component';
+import { EditGroupResolver } from './edit-group.resolver';
+import { CourtSharingComponent } from './court-sharing.component';
 
 
 @NgModule({
-  declarations: [SharingComponent, AddPeopleComponent ],
+  declarations: [SharingComponent, AddPeopleComponent, GroupDetailsComponent, AppShareDataDialogComponent, CourtSharingComponent ],
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -25,8 +27,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     SelectAutocompleteModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  entryComponents: [AddPeopleComponent],
-  providers: []
+  entryComponents: [AddPeopleComponent, AppShareDataDialogComponent, CourtSharingComponent],
+  providers: [EditGroupResolver]
 })
 
 export class SharingModule { }

@@ -1,0 +1,30 @@
+<h1 class="display-6" mat-dialog-title>Amount:
+    <span class="text-muted">₹{{_datas.totalAmount}}</span>
+    <!-- <label>{{ _datas.when.toDate() | date: 'mediumDate'}}:</label> -->
+</h1>
+
+<span *ngFor="let o of _datas.whoPlayed"></span><br>
+<div mat-dialog-content>
+    <table class="table table-stripped">
+        <tr>
+            <th>Name</th>
+            <th>Court</th>
+            <th>Shuttle</th>
+            <th>Share</th>
+        </tr>
+        <tr *ngFor="let item of _datas.shareSheet">
+            <td>
+                <div *ngFor="let name of _datas.people">
+                    {{item.id == name.empId ? name.name:''}}
+                </div>
+            </td>
+            <td>{{item.court | number: '1.1-1'}}</td>
+            <td>{{item.shuttle | number: '1.1-1'}}</td>
+            <td>{{item.played | number: '1.1-1'}}</td>
+        </tr>
+    </table>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="" cdkFocusInitial>Close</button>
+</div>

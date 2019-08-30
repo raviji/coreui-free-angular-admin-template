@@ -3,8 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 
 import { AuthuserResolver } from '../user/authuser.resolver';
-import { CourtSharingComponent } from './court-sharing.component';
 import { SharingComponent } from './sharing.component';
+import { GroupDetailsComponent } from './group-details.component';
+import { EditGroupResolver } from './edit-group.resolver';
 
 const routes: Routes = [
   {
@@ -13,23 +14,19 @@ const routes: Routes = [
     resolve: {data: AuthuserResolver},
     data: {
       title: 'Sharing'
-    }
-  },
-/*   {
-    path: 'sharing/:id',
-    component: DetailsComponent,
-    resolve: {data : EditOrgResolver},
-    data: {
-      title: 'Apps'
-    }
+    },
+    children: [
+      
+    ]
   },
   {
-    path: 'add-sharing',
-    component: AddOrgComponent,
+    path: ':id',
+    component: GroupDetailsComponent,
+    resolve: {data : EditGroupResolver},
     data: {
-      title: 'Add Sharing'
+      title: 'Group Details'
     }
-  } */
+  }
 ];
 
 @NgModule({

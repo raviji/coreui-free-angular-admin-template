@@ -19,20 +19,37 @@ export class ShareService {
    }
 
   getShare() {
-    // this.share = this.shareCollection.snapshotChanges().pipe(map(
-    //   changes => {
-    //     return changes.map(
-    //       a => {
-    //         const data = a.payload.doc.data() as Share;
-    //         data.id = a.payload.doc.id;
-    //         return data;
-    //       });
-    //   }));
-    // return this.share;
+    return this.db.collection('share').doc(firebase.auth().currentUser.uid).collection('shareSheet').valueChanges();
   }
   addShare(obj) {
+    obj.id = this.db.createId();
+    return this.db.collection(`share`).doc(firebase.auth().currentUser.uid).collection('shareSheet').doc(obj.id).set(obj);
     // return this.shareCollection.add(obj).then((res) => {});
   }
+  // Group details
+  createGroup(obj) {
+    obj.id = this.db.createId();
+    return this.db.collection(`share`).doc(firebase.auth().currentUser.uid).collection('Groups').doc(obj.id).set(obj);
+  }
+  getGroupById(userKey) {
+    return this.db.collection(`share`).doc(firebase.auth().currentUser.uid).collection('Groups').doc(userKey).snapshotChanges();
+  }
+  getGroups() {
+    return this.db.collection(`share`).doc(firebase.auth().currentUser.uid).collection('Groups').valueChanges();
+  }
+  updateGroup(userKey, obj) {
+    return this.db.collection(`share`).doc(firebase.auth().currentUser.uid).collection('Groups').doc(userKey).set(obj);
+  }
+  deleteGroup(userKey) {
+    return this.db.collection(`share`).doc(firebase.auth().currentUser.uid).collection('Groups').doc(userKey).delete();
+  }
+
+
+
+
+
+
+
   deleteShare(obj) {
     // this.shareDoc = this._afs.doc(`share/${obj.id}`);
     // this.shareDoc.delete();
@@ -79,19 +96,6 @@ export class ShareService {
   }
   // Group Details
 
-  getGroups() {
-    return this.db.collection('share-Groups').valueChanges();
-  }
-  updateGroup(userKey, obj) {
-    return this.db.collection('share-Groups').doc(userKey).set(obj);
-  }
-
-  deleteGroup(userKey) {
-    return this.db.collection('share-Groups').doc(userKey).delete();
-  }
-  // Create Group
-  createGroup(obj) {
-    obj.id = this.db.createId();
-    return this.db.collection('share-Groups').doc(obj.id).set(obj);
-  }
+  
+  
 }

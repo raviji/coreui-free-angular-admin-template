@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ShareService } from '../../core/services/share.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../../core/services/firebase.service';
+import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-court-sharing',
@@ -17,8 +18,9 @@ export class CourtSharingComponent implements OnInit {
   addShareForm: FormGroup;
   submitted = false;
   people: any = [];
+  groupUsersList: any = [];
   balance_sheet: any = [];
-  public today = new Date();
+  public today = Date.now();
   public checkExistingDate: any;
   public checkExistingMsg: string;
   public existDate: Boolean = false;
@@ -26,14 +28,16 @@ export class CourtSharingComponent implements OnInit {
     private formBuilder: FormBuilder,
     private _share: ShareService,
     private _router: Router,
-    // private spinner: NgxSpinnerService,
+    @Inject(MAT_DIALOG_DATA) public _groupUsersList: any,
+    public dialogRef: MatDialogRef<CourtSharingComponent>,
     private route: ActivatedRoute,
+    private _snackBar: MatSnackBar,
     private _people: FirebaseService) {
 
    }
 
   ngOnInit() {
-    // this.spinner.show();
+      // console.log(this._groupUsersList);
       this.addShareForm = this.formBuilder.group({
         when: ['', Validators.required],
         courtFee: ['', Validators.required],
@@ -45,24 +49,13 @@ export class CourtSharingComponent implements OnInit {
         whoPlayed: ['', Validators.required],
         extraWhoPlayed: [''],
         extraCourtFee: ['']
-          // email: ['', [Validators.required, Validators.email]],
-          // password: ['', [Validators.required, Validators.minLength(6)]]
       });
       this.getPeopleList();
-
-      /*this._share.getShare().subscribe(
-        data => {
-          // this.spinner.hide();
-          this.checkExistingDate = data;
-          // console.log(data);
-        });*/
   }
 
   compareDate(event) {
     let tests = null;
-    // console.log(event.value.toDateString());
     this.checkExistingDate.forEach(function(val) {
-      // console.log(new Date(val.when.toDate()).toDateString())
       if (new Date(val.when.toDate()).toDateString() === event.value.toDateString()) {
         tests = 'This date is already updated!';
       }
@@ -71,25 +64,18 @@ export class CourtSharingComponent implements OnInit {
     if (tests) {
       this.existDate = true;
     }
-    console.log(this.checkExistingMsg);
   }
   getPeopleList() {
-    // console.log("calling")
-    // this.spinner.show();
     this._people.getEmps().subscribe(
       data => {
         this.people = data;
-        // this.spinner.hide();
-        console.log(data);
       });
   }
-// convenience getter for easy access to form fields
+    // convenience getter for easy access to form fields
     get f(): any { return this.addShareForm.controls; }
 
     onSubmit() {
-      // this.spinner.show();
         this.submitted = true;
-        // stop here if form is invalid
         if (this.addShareForm.invalid) {
             return;
         }
@@ -104,7 +90,7 @@ export class CourtSharingComponent implements OnInit {
         const shuttleBy = this.addShareForm.value.shuttleTookBy;
         const shuttleCost = this.addShareForm.value.shuttleCost;
         this.addShareForm.value.whoPlayed.forEach(function (value) {
-          console.log(value);
+          // console.log(value);
           if (courtBy === value && shuttleBy === value) {
             shareSheet.push({
                 id: value,
@@ -139,11 +125,8 @@ export class CourtSharingComponent implements OnInit {
       //  console.log(shareSheet)
        this.addShareForm.value.shareSheet = shareSheet;
        this.addShareForm.value.createdAt = this.today;
-        /*this._share.addShare(this.addShareForm.value).then(() => {
-          // this.spinner.hide();
-           this._router.navigate([''], { relativeTo: this.route });
-          }).catch(function() {
-            this.spinner.hide();
-          });*/
+      //  console.log(this.addShareForm.value);
+      this.dialogRef.close(this.addShareForm.value);
+
     }
 }
