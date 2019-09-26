@@ -49,6 +49,7 @@ export class GroupDetailsComponent implements OnInit {
             this.groupID = data.payload.id;
             if (data) {
                 this.selectedGroup = data.payload.data();
+                console.log(this.selectedGroup.id);
                 // console.log(this.selectedGroup.selectedPplList);
             }
         });
@@ -63,15 +64,15 @@ export class GroupDetailsComponent implements OnInit {
     }
 
     getGroupRecords() {
-        this._shareData.getShare().subscribe(
+      this.sum = [];
+        this._shareData.getShare(this.selectedGroup.id).subscribe(
             data => {
                 this.shareData = data;
-                // this.dataSource.data = data;
-                this.dataSource = new MatTableDataSource(data);
                 if (data) {this.calculateShareAmount(this.shareData); }
+                this.dataSource = new MatTableDataSource(data);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
         });
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
     }
 
     addShare() {
@@ -79,6 +80,7 @@ export class GroupDetailsComponent implements OnInit {
             data: this.peopleGroupListToSendCS
         });
         dialogRef.afterClosed().subscribe(result => {
+            result.groupId = this.selectedGroup.id;
             this._shareSer.addShare(result).then(() => {
                 this._snackBar.open('your share is added successfully!');
                 this.getGroupRecords();
@@ -107,6 +109,7 @@ export class GroupDetailsComponent implements OnInit {
       // console.log(arr, this.selectedGroup.selectedPplList);
       // Calculate Shares total by id
       const totalPaid = [];
+      this.sum = [];
       if (this.selectedGroup.selectedPplList.length > 0) {
         for (const ids of this.selectedGroup.selectedPplList) {
           let a = 0;

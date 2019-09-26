@@ -18,12 +18,18 @@ export class ShareService {
 
    }
 
-  getShare() {
-    return this.db.collection('share').doc(firebase.auth().currentUser.uid).collection('shareSheet').valueChanges();
+  getShare(groupId) {
+    return this.db
+    .collection('share').doc(firebase.auth().currentUser.uid)
+    .collection('Groups').doc(groupId)
+    .collection('shareSheet').valueChanges();
   }
   addShare(obj) {
-    obj.id = this.db.createId();
-    return this.db.collection(`share`).doc(firebase.auth().currentUser.uid).collection('shareSheet').doc(obj.id).set(obj);
+    obj.id = this.db.createId(); // groupId
+    return this.db
+    .collection(`share`).doc(firebase.auth().currentUser.uid)
+    .collection(`Groups`).doc(obj.groupId)
+    .collection('shareSheet').doc(obj.id).set(obj);
     // return this.shareCollection.add(obj).then((res) => {});
   }
   // Group details

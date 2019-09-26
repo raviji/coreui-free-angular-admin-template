@@ -54,7 +54,7 @@ export class CourtSharingComponent implements OnInit {
   }
 
   compareDate(event) {
-    let tests = null;
+    /* let tests = null;
     this.checkExistingDate.forEach(function(val) {
       if (new Date(val.when.toDate()).toDateString() === event.value.toDateString()) {
         tests = 'This date is already updated!';
@@ -63,7 +63,7 @@ export class CourtSharingComponent implements OnInit {
     this.checkExistingMsg = tests;
     if (tests) {
       this.existDate = true;
-    }
+    } */
   }
   getPeopleList() {
     this._people.getEmps().subscribe(
