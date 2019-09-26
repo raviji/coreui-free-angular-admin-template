@@ -104,6 +104,7 @@ export class GroupDetailsComponent implements OnInit {
         );
     }
     calculateShareAmount(arr: any) {
+      // console.log(arr, this.selectedGroup.selectedPplList);
       // Calculate Shares total by id
       const totalPaid = [];
       if (this.selectedGroup.selectedPplList.length > 0) {
@@ -111,17 +112,18 @@ export class GroupDetailsComponent implements OnInit {
           let a = 0;
           let p = 0;
           for (const s of arr) {
-            s.shareSheet.forEach(function(i) {
-              if (i === ids) {
-                a = a + i.court + i.shuttle;
-                p = p + i.played;
+            s.shareSheet.forEach(function(val: any, key: any) {
+              // console.log(key, val);
+               if (val.id === ids) {
+                // console.log(val.id, ids);
+                a = a + val.court + val.shuttle;
+                p = p + val.played;
               }
             });
           }
-          // console.log(a, ids.id);
           this.sum.push({id : ids, totalPaid : a, totalPlayed : p, toPay: a - p});
         }
-        console.log(this.sum);
+        // console.log(this.sum);
       }
     }
 
@@ -129,7 +131,7 @@ export class GroupDetailsComponent implements OnInit {
      this._shareData.deleteShare(id);
     }
     showPop(element): void {
-        console.log(element);
+        // console.log(element);
       element.people = this.peopleGroupListToSendCS;
       const dialogRef = this.dialog.open(AppShareDataDialogComponent, {
         data: element

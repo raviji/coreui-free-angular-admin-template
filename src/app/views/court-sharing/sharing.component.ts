@@ -35,7 +35,7 @@ export class SharingComponent implements OnInit {
     getAllUsers() {
         this._users.getEmps().subscribe(
             (users: any) => {
-                console.log(users);
+                // console.log(users);
                 this.peopleData = users;
                 users.forEach(el => {
                     this.options.push({
